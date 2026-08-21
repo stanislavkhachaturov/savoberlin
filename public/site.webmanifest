@@ -1,0 +1,14 @@
+{
+  "name": "SAVO — Entrümpelung, Umzug & Rückbau in Berlin",
+  "short_name": "SAVO",
+  "description": "Entrümpelung, Haushaltsauflösung, Umzug, Rückbau und Endreinigung in Berlin und Brandenburg.",
+  "lang": "de",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#08090a",
+  "theme_color": "#08090a",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

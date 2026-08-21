@@ -1,0 +1,886 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SAVO — Entwurf B «Bento &amp; Preisrechner»</title>
+<link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --paper:#faf8f3; --card:#fff; --sand:#f0ebdf;
+  --ink:#14150f; --ink-2:#4c4d45; --ink-3:#8a8b81;
+  --green:#1d3a2d; --green-2:#26503d;
+  --y:#e9ce1b; --y-2:#f7e469; --y-soft:#fbf3c2;
+  --ring:rgba(20,21,15,.09);
+  --ease:cubic-bezier(.22,.61,.24,1);
+  --shell:min(1260px,100% - 2.5rem);
+  --r:26px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink-2);font:400 16px/1.62 Inter,system-ui,sans-serif;overflow-x:hidden}
+h1,h2,h3,h4{font-family:"Bricolage Grotesque",Inter,sans-serif;color:var(--ink);font-weight:700;
+  line-height:1.02;letter-spacing:-.025em;text-wrap:balance}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+ul{list-style:none}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+.shell{width:var(--shell);margin-inline:auto}
+::selection{background:var(--y);color:var(--ink)}
+
+/* ---------- плавающая навигация ---------- */
+header{position:fixed;top:1rem;left:0;right:0;z-index:70;display:flex;justify-content:center;pointer-events:none}
+.navpill{pointer-events:auto;display:flex;align-items:center;gap:.4rem;padding:.55rem .55rem .55rem 1.15rem;
+  border-radius:999px;background:rgba(255,255,255,.82);backdrop-filter:blur(16px);
+  box-shadow:0 10px 34px -18px rgba(20,21,15,.5),0 0 0 1px var(--ring);transition:.4s var(--ease)}
+.logo{display:flex;align-items:center;gap:.6rem;margin-right:1rem}
+.logo svg{width:36px;height:27px;color:var(--ink);flex-shrink:0}
+.logo b{font:700 1.2rem/1 "Bricolage Grotesque";letter-spacing:.09em;color:var(--ink)}
+.navpill nav{display:flex;gap:.15rem}
+.navpill nav a{padding:.6rem .95rem;border-radius:999px;font:500 .87rem/1 Inter;color:var(--ink-2);transition:.28s var(--ease)}
+.navpill nav a:hover{background:var(--sand);color:var(--ink)}
+.burger{display:none;width:42px;height:42px;border-radius:999px;background:var(--sand);position:relative}
+.burger i{position:absolute;left:12px;width:18px;height:2px;border-radius:2px;background:var(--ink);transition:.35s var(--ease)}
+.burger i:nth-child(1){top:16px}.burger i:nth-child(2){top:24px}
+body.menu .burger i:nth-child(1){transform:translateY(4px) rotate(45deg)}
+body.menu .burger i:nth-child(2){transform:translateY(-4px) rotate(-45deg)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;border-radius:999px;
+  font:600 .92rem/1 Inter;padding:1.02rem 1.6rem;transition:.32s var(--ease);white-space:nowrap}
+.btn-ink{background:var(--ink);color:#fff}
+.btn-ink:hover{background:var(--green);transform:translateY(-2px)}
+.btn-y{background:var(--y);color:var(--ink)}
+.btn-y:hover{background:var(--y-2);transform:translateY(-2px);box-shadow:0 14px 30px -14px rgba(233,206,27,.95)}
+.btn-soft{background:var(--sand);color:var(--ink)}
+.btn-soft:hover{background:#e4ddcc}
+.btn-wa{background:#25d366;color:#0a2e17}
+.btn-wa:hover{background:#3ee07a;transform:translateY(-2px)}
+.btn-sm{padding:.78rem 1.2rem;font-size:.85rem}
+.btn svg{width:17px;height:17px;transition:transform .3s var(--ease)}
+.btn:hover svg{transform:translateX(3px)}
+
+.mobmenu{position:fixed;inset:0;z-index:65;background:var(--paper);display:flex;flex-direction:column;
+  justify-content:center;gap:.2rem;padding:0 2rem;opacity:0;visibility:hidden;transition:.4s var(--ease)}
+body.menu .mobmenu{opacity:1;visibility:visible}
+.mobmenu a{font:700 2.3rem/1.45 "Bricolage Grotesque";color:var(--ink);opacity:0;transform:translateY(14px);transition:.45s var(--ease)}
+body.menu .mobmenu a{opacity:1;transform:none}
+.mobmenu a:nth-child(2){transition-delay:.06s}.mobmenu a:nth-child(3){transition-delay:.12s}
+.mobmenu a:nth-child(4){transition-delay:.18s}.mobmenu a:nth-child(5){transition-delay:.24s}
+.mobmenu .btn{margin-top:2rem;align-self:flex-start}
+
+/* ---------- bento-герой ---------- */
+.hero{padding:7.5rem 0 3rem}
+.bento{display:grid;grid-template-columns:repeat(12,1fr);gap:1rem}
+.tile{position:relative;border-radius:var(--r);background:var(--card);box-shadow:0 0 0 1px var(--ring);
+  overflow:hidden;transition:transform .45s var(--ease),box-shadow .45s var(--ease);
+  opacity:0;transform:translateY(24px) scale(.985);animation:pop .8s var(--ease) forwards}
+@keyframes pop{to{opacity:1;transform:none}}
+.tile:hover{transform:translateY(-4px);box-shadow:0 22px 48px -30px rgba(20,21,15,.55),0 0 0 1px var(--ring)}
+.t-hero{grid-column:span 7;grid-row:span 2;padding:2.9rem 2.9rem 2.6rem;display:flex;flex-direction:column;justify-content:center}
+.t-photo{grid-column:span 5;min-height:230px}
+.t-photo img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
+.t-photo:hover img{transform:scale(1.05)}
+.t-rating{grid-column:span 2;padding:1.6rem;display:flex;flex-direction:column;justify-content:center}
+.t-speed{grid-column:span 3;padding:1.6rem 1.7rem;background:var(--green);display:flex;flex-direction:column;justify-content:center}
+.t-chips{grid-column:span 7;padding:1.7rem 1.9rem;background:var(--sand)}
+.t-price{grid-column:span 5;padding:1.8rem 1.9rem;background:var(--y);display:flex;align-items:center;gap:1.3rem}
+
+.chip{display:inline-flex;align-items:center;gap:.55rem;padding:.48rem .9rem;border-radius:999px;
+  background:var(--y-soft);font:600 .74rem/1 Inter;letter-spacing:.1em;text-transform:uppercase;color:#6d5f06}
+.chip s{width:6px;height:6px;border-radius:50%;background:var(--y);text-decoration:none;animation:blink 1.9s ease-in-out infinite}
+@keyframes blink{50%{opacity:.3}}
+h1{font-size:clamp(2.5rem,5.4vw,4.3rem);margin-top:1.35rem;font-weight:800}
+/* маркер рисуется фоном, поэтому каждая строка подсвечивается по своей ширине */
+.mark{display:inline;-webkit-box-decoration-break:clone;box-decoration-break:clone;
+  background-image:linear-gradient(var(--y),var(--y));background-repeat:no-repeat;
+  background-position:0 .46em;background-size:0 .42em;
+  animation:swipe .9s var(--ease) .7s forwards}
+@keyframes swipe{to{background-size:100% .42em}}
+.t-hero p{margin-top:1.25rem;max-width:34rem;font-size:1.03rem}
+.t-hero .row{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.9rem}
+
+.stars{display:flex;gap:.12rem;color:var(--y)}
+.stars svg{width:15px;height:15px}
+.t-rating b{display:block;font:800 2.1rem/1 "Bricolage Grotesque";color:var(--ink);margin-top:.5rem}
+.t-rating span{display:block;font-size:.78rem;color:var(--ink-3);margin-top:.2rem}
+.t-speed b{display:block;font:800 2.1rem/1 "Bricolage Grotesque";color:var(--y)}
+.t-speed span{display:block;font-size:.82rem;color:#a8bfb2;margin-top:.45rem}
+.t-chips h4{font-size:.76rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.chiplist{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:1rem}
+.chiplist span{padding:.5rem .85rem;border-radius:999px;background:var(--card);font:500 .82rem/1 Inter;
+  color:var(--ink);box-shadow:0 0 0 1px var(--ring);transition:.28s var(--ease)}
+.chiplist span:hover{background:var(--ink);color:#fff}
+.t-price .big{font:800 2.6rem/1 "Bricolage Grotesque";color:var(--ink);flex-shrink:0}
+.t-price p{font-size:.92rem;color:#5c5305}
+.t-price b{color:var(--ink)}
+
+/* ---------- секции ---------- */
+section{padding:5.5rem 0;position:relative}
+.lbl{display:inline-flex;align-items:center;gap:.6rem;font:600 .74rem/1 Inter;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-3)}
+.lbl::before{content:"";width:20px;height:2px;border-radius:2px;background:var(--y)}
+h2{font-size:clamp(2rem,4.4vw,3.3rem);margin-top:.9rem;font-weight:800}
+.sec-head{max-width:44rem}
+.sec-head p{margin-top:1rem;font-size:1.01rem;max-width:38rem}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+
+/* ---------- калькулятор ---------- */
+.calc{display:grid;grid-template-columns:1.1fr .9fr;gap:1.1rem;margin-top:2.6rem}
+.calc-panel{background:var(--card);border-radius:var(--r);box-shadow:0 0 0 1px var(--ring);padding:2.2rem 2.2rem 2.4rem}
+.cgroup{margin-bottom:1.9rem}
+.cgroup:last-child{margin-bottom:0}
+.cgroup>label{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;
+  font:600 .76rem/1 Inter;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin-bottom:.85rem}
+.cgroup>label b{font:700 1rem/1 Inter;color:var(--ink);letter-spacing:0;text-transform:none}
+.opts{display:flex;flex-wrap:wrap;gap:.5rem}
+.opts button{padding:.72rem 1.1rem;border-radius:999px;background:var(--sand);font:500 .89rem/1 Inter;
+  color:var(--ink);transition:.28s var(--ease);box-shadow:0 0 0 1px transparent}
+.opts button:hover{background:#e6dfcd}
+.opts button[aria-pressed=true]{background:var(--ink);color:#fff}
+input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:6px;border-radius:99px;
+  background:linear-gradient(90deg,var(--y) var(--fill,30%),var(--sand) var(--fill,30%));outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;
+  background:var(--ink);border:4px solid var(--card);box-shadow:0 4px 14px -4px rgba(0,0,0,.5);cursor:grab}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--ink);
+  border:4px solid var(--card);cursor:grab}
+.scale{display:flex;justify-content:space-between;margin-top:.55rem;font-size:.76rem;color:var(--ink-3)}
+
+.calc-out{background:var(--green);border-radius:var(--r);padding:2.2rem;color:#b9cdc2;
+  display:flex;flex-direction:column;position:relative;overflow:hidden}
+.calc-out::before{content:"";position:absolute;width:280px;height:280px;border-radius:50%;
+  background:rgba(233,206,27,.16);filter:blur(70px);top:-100px;right:-80px}
+.calc-out .lbl{color:#8fae9d;position:relative}
+.calc-out .lbl::before{background:var(--y)}
+.price{position:relative;font:800 clamp(2.4rem,5vw,3.5rem)/1 "Bricolage Grotesque";color:#fff;margin-top:1rem}
+.price em{font-style:normal;color:var(--y)}
+.price small{display:block;font:500 .84rem/1.5 Inter;color:#8fae9d;margin-top:.7rem}
+.outrows{position:relative;margin-top:1.8rem;display:grid;gap:1px;background:rgba(255,255,255,.12);
+  border-radius:16px;overflow:hidden}
+.outrows div{display:flex;justify-content:space-between;gap:1rem;padding:.95rem 1.15rem;background:var(--green);font-size:.9rem}
+.outrows div b{color:#fff;font-weight:600}
+.calc-out .btn{margin-top:1.6rem;position:relative}
+.calc-note{position:relative;margin-top:1rem;font-size:.76rem;color:#7fa08d;text-align:center}
+
+/* ---------- услуги: липкий сплит ---------- */
+.split{display:grid;grid-template-columns:.85fr 1.15fr;gap:3.5rem;margin-top:3rem;align-items:start}
+.split-nav{position:sticky;top:7rem}
+.split-nav li{padding:1.15rem 0;border-top:1px solid var(--ring);display:flex;gap:1rem;align-items:baseline;
+  cursor:pointer;transition:.35s var(--ease)}
+.split-nav li:last-child{border-bottom:1px solid var(--ring)}
+.split-nav em{font:600 .78rem/1 Inter;font-style:normal;color:var(--ink-3);transition:.3s}
+.split-nav h3{font-size:1.28rem;color:var(--ink-3);transition:.3s var(--ease)}
+.split-nav li.on h3{color:var(--ink)}
+.split-nav li.on em{color:var(--y)}
+.split-nav li:hover h3{color:var(--ink)}
+.split-progress{margin-top:1.6rem;height:3px;border-radius:3px;background:var(--sand);overflow:hidden}
+.split-progress i{display:block;height:100%;width:33.33%;background:var(--y);border-radius:3px;
+  transition:transform .5s var(--ease);transform-origin:left}
+.blocks{display:grid;gap:4.5rem}
+.block .pic{border-radius:var(--r);overflow:hidden;aspect-ratio:16/10;box-shadow:0 0 0 1px var(--ring)}
+.block .pic img{width:100%;height:100%;object-fit:cover;transition:transform 1.1s var(--ease)}
+.block:hover .pic img{transform:scale(1.04)}
+.block h3{font-size:clamp(1.6rem,3vw,2.2rem);margin-top:1.7rem}
+.block p{margin-top:.85rem}
+.block ul{margin-top:1.4rem;display:grid;gap:.7rem}
+.block li{display:flex;gap:.8rem;font-size:.95rem;align-items:flex-start}
+.block li svg{width:19px;height:19px;color:var(--green);flex-shrink:0;margin-top:.22rem}
+
+/* ---------- галерея до/после ---------- */
+.gal{display:flex;gap:1rem;margin-top:2.6rem;overflow-x:auto;scroll-snap-type:x mandatory;
+  padding-bottom:1rem;cursor:grab;scrollbar-width:none}
+.gal::-webkit-scrollbar{display:none}
+.gal.grab{cursor:grabbing;scroll-snap-type:none}
+.gcard{flex:0 0 clamp(280px,42vw,470px);scroll-snap-align:center;border-radius:var(--r);overflow:hidden;
+  position:relative;aspect-ratio:4/3;background:var(--sand);box-shadow:0 0 0 1px var(--ring)}
+.gcard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .6s var(--ease)}
+.gcard .before{opacity:0}
+.gcard.show .before{opacity:1}
+.gcard .flag{position:absolute;z-index:3;left:1rem;top:1rem;padding:.5rem .9rem;border-radius:999px;
+  background:rgba(255,255,255,.92);backdrop-filter:blur(6px);font:600 .74rem/1 Inter;color:var(--ink)}
+.gcard.show .flag{background:var(--ink);color:#fff}
+.gcard .cap{position:absolute;z-index:3;left:1rem;right:1rem;bottom:1rem;padding:.85rem 1.1rem;border-radius:16px;
+  background:rgba(255,255,255,.92);backdrop-filter:blur(8px)}
+.gcard .cap b{display:block;font:600 .95rem/1.3 Inter;color:var(--ink)}
+.gcard .cap span{font-size:.8rem;color:var(--ink-3)}
+.galhint{display:flex;align-items:center;gap:.6rem;margin-top:.4rem;font-size:.84rem;color:var(--ink-3)}
+
+/* ---------- таймлайн дня ---------- */
+.day{background:var(--green);color:#a9c2b6;border-radius:36px;padding:3.4rem 0;overflow:hidden}
+.day h2,.day .lbl{color:#fff}
+.day .lbl{color:#8fae9d}
+.tl{display:flex;gap:1rem;margin-top:2.4rem;overflow-x:auto;padding:0 max((100% - 1260px)/2 + 1.25rem,1.25rem) 1rem;
+  scroll-snap-type:x proximity;cursor:grab;scrollbar-width:none}
+.tl::-webkit-scrollbar{display:none}
+.tl.grab{cursor:grabbing}
+.tlcard{flex:0 0 clamp(230px,26vw,290px);scroll-snap-align:start;background:var(--green-2);border-radius:22px;
+  padding:1.6rem 1.5rem 1.7rem;position:relative;transition:.35s var(--ease)}
+.tlcard:hover{background:#2d5f49;transform:translateY(-4px)}
+.tlcard time{display:inline-block;font:700 .82rem/1 Inter;color:var(--y);letter-spacing:.06em}
+.tlcard h4{font-size:1.12rem;color:#fff;margin-top:.9rem}
+.tlcard p{margin-top:.6rem;font-size:.88rem;color:#a9c2b6}
+.tlcard::after{content:"";position:absolute;left:1.5rem;top:-1.55rem;width:11px;height:11px;border-radius:50%;
+  background:var(--y);box-shadow:0 0 0 4px rgba(233,206,27,.2)}
+.tlline{position:relative;height:1px;background:rgba(255,255,255,.16);margin:2.6rem 0 0}
+
+/* ---------- отзывы ---------- */
+.marq{overflow:hidden;margin-top:2.4rem;mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.marq-track{display:flex;gap:1rem;width:max-content;animation:slide 46s linear infinite}
+.marq:hover .marq-track{animation-play-state:paused}
+.marq.rev .marq-track{animation-direction:reverse;animation-duration:54s}
+@keyframes slide{to{transform:translateX(-50%)}}
+.rev-card{width:340px;background:var(--card);border-radius:22px;padding:1.6rem 1.7rem;box-shadow:0 0 0 1px var(--ring)}
+.rev-card .stars{margin-bottom:.85rem}
+.rev-card p{font-size:.93rem;color:var(--ink-2)}
+.rev-card .who{display:flex;align-items:center;gap:.7rem;margin-top:1.2rem}
+.rev-card .av{width:34px;height:34px;border-radius:50%;background:var(--sand);display:grid;place-items:center;
+  font:700 .8rem/1 Inter;color:var(--ink)}
+.rev-card b{display:block;font:600 .88rem/1.3 Inter;color:var(--ink)}
+.rev-card span{font-size:.76rem;color:var(--ink-3)}
+
+/* ---------- faq ---------- */
+.faq{max-width:52rem;margin-top:2.4rem}
+.q{border-bottom:1px solid var(--ring)}
+.q>button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:1.5rem;
+  padding:1.5rem 0;text-align:left;font:600 1.08rem/1.4 "Bricolage Grotesque";color:var(--ink)}
+.q i{flex-shrink:0;width:34px;height:34px;border-radius:50%;background:var(--sand);position:relative;transition:.35s var(--ease)}
+.q i::before,.q i::after{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  background:var(--ink);transition:.35s var(--ease)}
+.q i::before{width:13px;height:2px}
+.q i::after{width:2px;height:13px}
+.q.on i{background:var(--y);transform:rotate(135deg)}
+.q .a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s var(--ease)}
+.q.on .a{grid-template-rows:1fr}
+.q .a>div{overflow:hidden}
+.q .a p{padding-bottom:1.5rem;max-width:44rem;font-size:.97rem}
+
+/* ---------- контакт ---------- */
+.contact{background:var(--ink);border-radius:36px;padding:3.4rem;display:grid;
+  grid-template-columns:1fr 1fr;gap:3rem;color:#a3a49b;position:relative;overflow:hidden}
+.contact::before{content:"";position:absolute;width:420px;height:420px;border-radius:50%;
+  background:rgba(233,206,27,.14);filter:blur(110px);bottom:-180px;left:-120px}
+.contact h2,.contact .lbl{color:#fff}
+.contact .lbl{color:#8a8b81}
+.contact>*{position:relative}
+.contact p.i{margin-top:1.1rem;max-width:32rem}
+.cbtns{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:2rem}
+.cmeta{display:grid;gap:.75rem;margin-top:2.2rem;font-size:.9rem}
+.cmeta div{display:flex;gap:.8rem;align-items:center}
+.cmeta svg{width:17px;height:17px;color:var(--y);flex-shrink:0}
+form{background:rgba(255,255,255,.05);border-radius:24px;padding:1.9rem;box-shadow:0 0 0 1px rgba(255,255,255,.1)}
+.field{margin-bottom:.95rem}
+label.fl{display:block;font:600 .72rem/1 Inter;letter-spacing:.12em;text-transform:uppercase;color:#8a8b81;margin-bottom:.5rem}
+input[type=text],input[type=tel],select,textarea{width:100%;padding:.9rem 1.05rem;border-radius:14px;
+  border:0;background:rgba(255,255,255,.07);color:#fff;font:400 .94rem Inter;
+  box-shadow:0 0 0 1px rgba(255,255,255,.12);transition:.3s}
+input::placeholder,textarea::placeholder{color:#75766e}
+input:focus,select:focus,textarea:focus{outline:none;box-shadow:0 0 0 2px var(--y)}
+select option{color:#111}
+textarea{resize:vertical;min-height:88px}
+form .btn{width:100%;margin-top:.4rem}
+.formnote{margin-top:.85rem;font-size:.76rem;text-align:center;color:#75766e}
+
+/* ---------- footer ---------- */
+footer{padding:4rem 0 2.5rem}
+.fgrid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:3rem}
+.fgrid h4{font:600 .74rem/1 Inter;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3)}
+.fgrid ul{margin-top:1.1rem;display:grid;gap:.6rem}
+.fgrid a{font-size:.92rem;transition:color .3s}
+.fgrid a:hover{color:var(--ink)}
+.fbottom{margin-top:2.8rem;padding-top:1.5rem;border-top:1px solid var(--ring);display:flex;
+  justify-content:space-between;flex-wrap:wrap;gap:1rem;font-size:.82rem;color:var(--ink-3)}
+
+/* ---------- адаптив ---------- */
+@media (max-width:1100px){
+  .t-hero{grid-column:span 12;grid-row:auto}
+  .t-photo{grid-column:span 12;min-height:210px}
+  .t-rating{grid-column:span 4}
+  .t-speed{grid-column:span 8}
+  .t-chips,.t-price{grid-column:span 12}
+  .calc{grid-template-columns:1fr}
+  .split{grid-template-columns:1fr;gap:2rem}
+  .split-nav{position:static}
+  .split-progress{display:none}
+  .contact{grid-template-columns:1fr;padding:2.4rem}
+  .fgrid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:760px){
+  :root{--shell:min(1260px,100% - 1.5rem);--r:22px}
+  .navpill nav,.navpill .btn{display:none}
+  .burger{display:block}
+  .navpill{padding:.5rem .5rem .5rem 1rem;width:calc(100% - 1.5rem);justify-content:space-between}
+  .logo{margin-right:0}
+  section{padding:3.8rem 0}
+  .hero{padding-top:6.5rem}
+  .t-hero{padding:2rem 1.5rem}
+  .t-rating,.t-speed{grid-column:span 12}
+  .t-price{flex-direction:column;align-items:flex-start;gap:.6rem}
+  .calc-panel,.calc-out{padding:1.6rem}
+  .day{border-radius:26px;padding:2.6rem 0}
+  .tl{padding-inline:1.25rem}
+  .contact{padding:1.8rem;border-radius:26px}
+  form{padding:1.4rem}
+  .fgrid{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+
+<svg style="display:none">
+  <symbol id="mark" viewBox="0 0 124 92" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 76V33.5L40 7l33 26.5V76"/><path d="M7 76h95"/><path d="M73 41h21l13 14v21"/>
+    <rect x="19" y="45" width="42" height="23" rx="7"/><circle cx="96" cy="76" r="8.5"/>
+  </symbol>
+  <symbol id="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+  <symbol id="star" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 2.9 6.2 6.6.9-4.8 4.7 1.2 6.7L12 17.3 6.1 20.5l1.2-6.7L2.5 9.1l6.6-.9Z"/></symbol>
+  <symbol id="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="m8 12.3 2.7 2.7L16 9.5"/></symbol>
+  <symbol id="phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.4 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.4 1.8.6 2.8.8a2 2 0 0 1 1.7 2Z"/></symbol>
+  <symbol id="mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></symbol>
+  <symbol id="pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></symbol>
+  <symbol id="wa" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm5.6 14.2c-.2.7-1.3 1.3-1.9 1.3-.5 0-1.1.2-3.6-.8-3-1.3-5-4.4-5.1-4.6-.2-.2-1.3-1.7-1.3-3.3 0-1.5.8-2.3 1.1-2.6.3-.3.6-.4.8-.4h.6c.2 0 .5-.1.7.5l1 2.3c.1.2.1.4 0 .6l-.4.6-.3.3c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.2 1.4 2.5 1.5.3.2.5.1.6 0l.9-1c.2-.3.4-.2.7-.1l2.2 1c.3.2.5.3.6.4.1.2.1.7-.1 1.4Z"/></symbol>
+  <symbol id="drag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6 3 12l5 6M16 6l5 6-5 6"/></symbol>
+</svg>
+
+<header>
+  <div class="navpill" id="pill">
+    <a href="#top" class="logo"><svg><use href="#mark"/></svg><b>SAVO</b></a>
+    <nav>
+      <a href="#rechner">Preisrechner</a>
+      <a href="#leistungen">Leistungen</a>
+      <a href="#einsatz">Ein Tag bei uns</a>
+      <a href="#stimmen">Bewertungen</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a href="#kontakt" class="btn btn-ink btn-sm">Angebot holen</a>
+    <button class="burger" id="burger" aria-label="Menü"><i></i><i></i></button>
+  </div>
+</header>
+
+<div class="mobmenu" id="mobmenu">
+  <a href="#rechner">Preisrechner</a>
+  <a href="#leistungen">Leistungen</a>
+  <a href="#einsatz">Ein Tag bei uns</a>
+  <a href="#stimmen">Bewertungen</a>
+  <a href="#faq">FAQ</a>
+  <a href="#kontakt" class="btn btn-y">Angebot holen</a>
+</div>
+
+<!-- ===== BENTO-HERO ===== -->
+<section class="hero" id="top">
+  <div class="shell bento">
+    <div class="tile t-hero" style="animation-delay:.05s">
+      <span class="chip"><s></s>Berlin &amp; Brandenburg</span>
+      <h1>Wir machen Platz.<br /><span class="mark">Sie machen gar nichts.</span></h1>
+      <p>Entrümpelung, Haushaltsauflösung, Umzug und Rückbau — komplett aus einer Hand.
+         Erfahrene Fachmänner, klare deutsche Absprachen, verbindlicher Festpreis und
+         besenreine Übergabe.</p>
+      <div class="row">
+        <a href="#rechner" class="btn btn-y">Preis in 30 Sekunden <svg><use href="#arrow"/></svg></a>
+        <a href="#kontakt" class="btn btn-soft"><svg><use href="#wa"/></svg> Per WhatsApp fragen</a>
+      </div>
+    </div>
+
+    <div class="tile t-photo" style="animation-delay:.12s">
+      <img src="./assets/img/entruempelung-truck.webp" alt="Entrümpelung in Berlin" />
+    </div>
+
+    <div class="tile t-rating" style="animation-delay:.19s">
+      <div class="stars">
+        <svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg>
+        <svg><use href="#star"/></svg><svg><use href="#star"/></svg>
+      </div>
+      <b>4,9</b><span>aus 214 Bewertungen</span>
+    </div>
+
+    <div class="tile t-speed" style="animation-delay:.26s">
+      <b>&lt; 60 Min.</b>
+      <span>Rückmeldung auf jede Anfrage — auch samstags. Termine oft schon am nächsten Tag.</span>
+    </div>
+
+    <div class="tile t-chips" style="animation-delay:.33s">
+      <h4>Womit wir Ihnen helfen</h4>
+      <div class="chiplist">
+        <span>Entrümpelung</span><span>Haushaltsauflösung</span><span>Umzug</span><span>Warentransport</span>
+        <span>Kurierdienst</span><span>Möbelmontage</span><span>Entkernung</span><span>Abrissarbeiten</span>
+        <span>Endreinigung</span><span>Entsorgung</span>
+      </div>
+    </div>
+
+    <div class="tile t-price" style="animation-delay:.4s">
+      <span class="big">−30 %</span>
+      <p><b>Bestpreis-Garantie.</b> Sie haben ein günstigeres, vergleichbares Angebot?
+         Zeigen Sie es uns — wir unterbieten es.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PREISRECHNER ===== -->
+<section id="rechner">
+  <div class="shell">
+    <div class="sec-head reveal">
+      <span class="lbl">Preisrechner</span>
+      <h2>Was kostet das bei Ihnen?</h2>
+      <p>Drei Klicks und Sie kennen die Größenordnung — ohne Anruf, ohne Formular, ohne Wartezeit.
+         Den verbindlichen Festpreis erhalten Sie nach der kostenlosen Besichtigung.</p>
+    </div>
+
+    <div class="calc reveal">
+      <div class="calc-panel">
+        <div class="cgroup">
+          <label>Leistung</label>
+          <div class="opts" data-name="service">
+            <button aria-pressed="true" data-v="entruempelung" data-rate="26">Entrümpelung</button>
+            <button aria-pressed="false" data-v="umzug" data-rate="19">Umzug</button>
+            <button aria-pressed="false" data-v="rueckbau" data-rate="42">Rückbau / Entkernung</button>
+            <button aria-pressed="false" data-v="reinigung" data-rate="11">Endreinigung</button>
+          </div>
+        </div>
+
+        <div class="cgroup">
+          <label>Objekt</label>
+          <div class="opts" data-name="object">
+            <button aria-pressed="true" data-v="wohnung" data-mult="1">Wohnung</button>
+            <button aria-pressed="false" data-v="haus" data-mult=".95">Haus</button>
+            <button aria-pressed="false" data-v="keller" data-mult="1.15">Keller</button>
+            <button aria-pressed="false" data-v="dachboden" data-mult="1.2">Dachboden</button>
+            <button aria-pressed="false" data-v="garage" data-mult="1.05">Garage</button>
+            <button aria-pressed="false" data-v="gewerbe" data-mult="1.1">Gewerbe</button>
+          </div>
+        </div>
+
+        <div class="cgroup">
+          <label>Fläche <b><span id="areaOut">60</span> m²</b></label>
+          <input type="range" id="area" min="10" max="300" step="5" value="60" />
+          <div class="scale"><span>10 m²</span><span>300 m²</span></div>
+        </div>
+
+        <div class="cgroup">
+          <label>Füllgrad</label>
+          <div class="opts" data-name="load">
+            <button aria-pressed="false" data-v="leicht" data-mult=".72">Wenig</button>
+            <button aria-pressed="true" data-v="normal" data-mult="1">Normal</button>
+            <button aria-pressed="false" data-v="voll" data-mult="1.4">Randvoll</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-out">
+        <span class="lbl">Ihre Schätzung</span>
+        <div class="price"><span id="pMin">960</span> – <span id="pMax">1.240</span> <em>€</em>
+          <small>inkl. Anfahrt, Arbeitskraft, Transport und fachgerechter Entsorgung. Preise inkl. MwSt.</small>
+        </div>
+        <div class="outrows">
+          <div><span>Dauer</span><b id="oTime">1 Tag</b></div>
+          <div><span>Team</span><b id="oTeam">3 Fachmänner</b></div>
+          <div><span>Geschätztes Volumen</span><b id="oCont">18 m³</b></div>
+          <div><span>Besenreine Übergabe</span><b>inklusive</b></div>
+        </div>
+        <a href="#kontakt" class="btn btn-y">Festpreis anfragen <svg><use href="#arrow"/></svg></a>
+        <p class="calc-note">Unverbindliche Orientierung. Der Festpreis wird nach der kostenlosen Besichtigung schriftlich fixiert.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LEISTUNGEN: LIPKY SPLIT ===== -->
+<section id="leistungen">
+  <div class="shell">
+    <div class="sec-head reveal">
+      <span class="lbl">Leistungen</span>
+      <h2>Drei Bereiche, ein Ansprechpartner</h2>
+    </div>
+
+    <div class="split">
+      <div class="split-nav">
+        <ul id="splitNav">
+          <li class="on" data-i="0"><em>01</em><h3>Entrümpelung &amp; Haushaltsauflösung</h3></li>
+          <li data-i="1"><em>02</em><h3>Umzug &amp; Transport</h3></li>
+          <li data-i="2"><em>03</em><h3>Rückbau, Entkernung &amp; Reinigung</h3></li>
+        </ul>
+        <div class="split-progress"><i id="splitBar"></i></div>
+      </div>
+
+      <div class="blocks">
+        <article class="block reveal" data-i="0">
+          <div class="pic"><img src="./assets/img/clutter-attic.webp" alt="Entrümpelung Dachboden" loading="lazy" /></div>
+          <h3>Entrümpelung &amp; Haushaltsauflösung</h3>
+          <p>Unsere Königsdisziplin. Wenn es schnell, gründlich und diskret gehen muss, sind wir Ihr
+             Ansprechpartner Nummer 1 in der Region — wir verwandeln chaotische Räume in makellose Flächen.</p>
+          <ul>
+            <li><svg><use href="#check"/></svg><span>Komplettabwicklung von Nachlässen und Wohnungsauflösungen mit Fingerspitzengefühl</span></li>
+            <li><svg><use href="#check"/></svg><span>Keller, Dachboden, Garage oder Gewerbeobjekt — restlos aufgeräumt</span></li>
+            <li><svg><use href="#check"/></svg><span>Zertifiziertes Abfallmanagement mit umweltgerechter Beförderung</span></li>
+            <li><svg><use href="#check"/></svg><span>Besenreine Übergabe: Sie geben den Schlüssel, wir geben saubere Räume zurück</span></li>
+          </ul>
+        </article>
+
+        <article class="block reveal" data-i="1">
+          <div class="pic"><img src="./assets/img/van-street.webp" alt="Umzug und Transport" loading="lazy" /></div>
+          <h3>Umzug &amp; Transport</h3>
+          <p>Stressfrei von A nach B — innerhalb von Berlin oder ins Umland von Brandenburg.
+             Unsere Profis packen stark an und transportieren Ihr Hab und Gut sicher ans Ziel.</p>
+          <ul>
+            <li><svg><use href="#check"/></svg><span>Perfekt durchgeplante Privat- und Firmenumzüge</span></li>
+            <li><svg><use href="#check"/></svg><span>Zuverlässige und sichere Beförderung Ihrer Güter</span></li>
+            <li><svg><use href="#check"/></svg><span>Kurierdienst: blitzschnelle Direkt- und Sonderfahrten</span></li>
+            <li><svg><use href="#check"/></svg><span>Fachkundige Möbelmontage und -demontage</span></li>
+          </ul>
+        </article>
+
+        <article class="block reveal" data-i="2">
+          <div class="pic"><img src="./assets/img/entkernung.webp" alt="Rückbau und Entkernung" loading="lazy" /></div>
+          <h3>Rückbau, Entkernung &amp; Reinigung</h3>
+          <p>Wir schaffen Platz für Neues — mit schwerem Gerät, klarem Verstand und präziser Handwerksarbeit,
+             bis zur bezugsfertigen Endreinigung.</p>
+          <ul>
+            <li><svg><use href="#check"/></svg><span>Strukturierter Rückbau von Einbauten, Wänden und Böden</span></li>
+            <li><svg><use href="#check"/></svg><span>Kontrollierte und sichere leichte Abrissarbeiten</span></li>
+            <li><svg><use href="#check"/></svg><span>Gründliche Bau- und Feinreinigung, sofort nutzbereit</span></li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== GALERIE VORHER/NACHHER ===== -->
+<section style="padding-top:0">
+  <div class="shell">
+    <div class="sec-head reveal">
+      <span class="lbl">Referenzen</span>
+      <h2>Aus Chaos wird Fläche</h2>
+      <p>Tippen oder mit der Maus über eine Karte fahren, um den Zustand vor dem Einsatz zu sehen.</p>
+      <p class="galhint"><svg width="17" height="17" style="color:var(--y)"><use href="#drag"/></svg>
+         Seitwärts ziehen für weitere Objekte</p>
+    </div>
+  </div>
+  <div class="shell">
+    <div class="gal reveal" id="gal">
+      <div class="gcard">
+        <img src="./assets/img/room-empty.webp" alt="Nachher" loading="lazy" />
+        <img class="before" src="./assets/img/clutter-room.webp" alt="Vorher" loading="lazy" />
+        <span class="flag">Nachher</span>
+        <div class="cap"><b>Haushaltsauflösung, 3 Zimmer</b><span>Berlin-Pankow · 2 Tage · besenrein übergeben</span></div>
+      </div>
+      <div class="gcard">
+        <img src="./assets/img/room-white.webp" alt="Nachher" loading="lazy" />
+        <img class="before" src="./assets/img/clutter-attic.webp" alt="Vorher" loading="lazy" />
+        <span class="flag">Nachher</span>
+        <div class="cap"><b>Dachboden entrümpelt</b><span>Berlin-Steglitz · 1 Tag · inkl. Entsorgungsnachweis</span></div>
+      </div>
+      <div class="gcard">
+        <img src="./assets/img/basement.webp" alt="Nachher" loading="lazy" />
+        <img class="before" src="./assets/img/entkernung.webp" alt="Vorher" loading="lazy" />
+        <span class="flag">Nachher</span>
+        <div class="cap"><b>Entkernung Ladenfläche</b><span>Potsdam · 4 Tage · bezugsfertig gereinigt</span></div>
+      </div>
+      <div class="gcard">
+        <img src="./assets/img/van-open.webp" alt="Nachher" loading="lazy" />
+        <img class="before" src="./assets/img/container.webp" alt="Vorher" loading="lazy" />
+        <span class="flag">Nachher</span>
+        <div class="cap"><b>Kellerentrümpelung, Mehrfamilienhaus</b><span>Berlin-Neukölln · 1 Tag · 12 m³ entsorgt</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EIN TAG IM EINSATZ ===== -->
+<section id="einsatz" style="padding-top:0">
+  <div class="shell">
+    <div class="day">
+      <div class="shell" style="width:min(1260px,100% - 2.5rem)">
+        <div class="sec-head reveal">
+          <span class="lbl">Ein Tag im Einsatz</span>
+          <h2 style="color:#fff">So läuft ein Auftrag bei Savo ab</h2>
+          <p style="color:#a9c2b6">Kein Rätselraten: Sie wissen von Anfang an, wer wann kommt und was passiert.</p>
+        </div>
+        <div class="tlline"></div>
+      </div>
+      <div class="tl" id="tl">
+        <div class="tlcard"><time>Tag 0 · in 60 Min.</time><h4>Anfrage &amp; Rückruf</h4>
+          <p>Sie schreiben per WhatsApp oder rufen an. Wir melden uns innerhalb einer Stunde zurück.</p></div>
+        <div class="tlcard"><time>Tag 1</time><h4>Kostenlose Besichtigung</h4>
+          <p>Vor Ort oder per Videocall. Wir schauen uns Menge, Zugang und Aufzug an — unverbindlich.</p></div>
+        <div class="tlcard"><time>Tag 1 · abends</time><h4>Festpreis schriftlich</h4>
+          <p>Ein Angebot ohne Sternchen: fixer Preis, fixer Termin, fixe Leistungen.</p></div>
+        <div class="tlcard"><time>07:00</time><h4>Anfahrt &amp; Schutz</h4>
+          <p>Das Team ist pünktlich da. Treppenhaus, Böden und Türrahmen werden abgedeckt.</p></div>
+        <div class="tlcard"><time>09:30</time><h4>Räumen &amp; sortieren</h4>
+          <p>Wertsachen und Dokumente werden separiert und Ihnen übergeben, der Rest wird getrennt verladen.</p></div>
+        <div class="tlcard"><time>13:00</time><h4>Fachgerechte Entsorgung</h4>
+          <p>Abtransport zu zertifizierten Annahmestellen — Sie erhalten den Entsorgungsnachweis.</p></div>
+        <div class="tlcard"><time>15:30</time><h4>Endreinigung</h4>
+          <p>Besenrein oder auf Wunsch mit kompletter Feinreinigung inklusive Fenster und Sanitär.</p></div>
+        <div class="tlcard"><time>16:30</time><h4>Übergabe</h4>
+          <p>Gemeinsame Abnahme, Schlüsselübergabe, fertig. Ohne Nachforderungen.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== BEWERTUNGEN ===== -->
+<section id="stimmen">
+  <div class="shell sec-head reveal">
+    <span class="lbl">Bewertungen</span>
+    <h2>Was Kunden über uns sagen</h2>
+  </div>
+  <div class="marq"><div class="marq-track" id="m1"></div></div>
+  <div class="marq rev" style="margin-top:1rem"><div class="marq-track" id="m2"></div></div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section id="faq" style="padding-top:1rem">
+  <div class="shell">
+    <div class="sec-head reveal">
+      <span class="lbl">Häufige Fragen</span>
+      <h2>Das wollen Kunden meistens wissen</h2>
+    </div>
+    <div class="faq reveal">
+      <div class="q on">
+        <button>Was kostet eine Entrümpelung wirklich?<i></i></button>
+        <div class="a"><div><p>Der Preis hängt von Menge, Zugang und Entsorgungsart ab. Der Rechner oben gibt Ihnen
+          eine realistische Größenordnung; den verbindlichen Festpreis nennen wir nach der kostenlosen Besichtigung —
+          schriftlich und ohne Nachforderungen. Verwertbare Gegenstände rechnen wir gegen.</p></div></div>
+      </div>
+      <div class="q">
+        <button>Wie schnell können Sie kommen?<i></i></button>
+        <div class="a"><div><p>Auf jede Anfrage antworten wir innerhalb von 60 Minuten. Besichtigungstermine
+          gibt es in der Regel noch am selben oder am nächsten Tag, die Ausführung häufig innerhalb von 48 Stunden —
+          auf Wunsch auch am Wochenende.</p></div></div>
+      </div>
+      <div class="q">
+        <button>Muss ich beim Termin anwesend sein?<i></i></button>
+        <div class="a"><div><p>Nein. Viele Kunden übergeben uns nur den Schlüssel — besonders bei Nachlässen aus
+          einer anderen Stadt. Sie bekommen Fotos vom Zustand vor und nach dem Einsatz sowie den Entsorgungsnachweis.</p></div></div>
+      </div>
+      <div class="q">
+        <button>Was passiert mit dem Müll?<i></i></button>
+        <div class="a"><div><p>Wir sammeln und befördern nicht gefährliche Abfälle ordnungsgemäß und geben sie bei
+          zertifizierten Annahmestellen ab. Alles wird getrennt: Sperrmüll, Elektrogeräte, Metall, Holz und Restmüll.
+          Den Nachweis erhalten Sie mit der Rechnung.</p></div></div>
+      </div>
+      <div class="q">
+        <button>Sprechen die Mitarbeiter Deutsch?<i></i></button>
+        <div class="a"><div><p>Ja — zu 100 %. Von der ersten Beratung bis zur Übergabe kommunizieren wir auf
+          professionellem Deutsch. Klare Absprachen statt Missverständnisse.</p></div></div>
+      </div>
+      <div class="q">
+        <button>Übernehmen Sie auch besonders schwierige Fälle?<i></i></button>
+        <div class="a"><div><p>Ja. Messie-Wohnungen, verwahrloste Objekte, Räumungen nach Wasserschaden oder
+          komplette Gewerbeauflösungen gehören zu unserem Alltag — diskret, respektvoll und ohne Bewertung der Situation.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== KONTAKT ===== -->
+<section id="kontakt">
+  <div class="shell">
+    <div class="contact reveal">
+      <div>
+        <span class="lbl">Kontakt</span>
+        <h2>Bereit für Spitzenleistung zum Bestpreis?</h2>
+        <p class="i">Kontaktieren Sie uns jetzt für ein unverbindliches und kostenloses Angebot.
+           Am schnellsten geht es per WhatsApp — Fotos vom Objekt reichen für eine erste Einschätzung.</p>
+        <div class="cbtns">
+          <a href="https://wa.me/493000000000" class="btn btn-wa"><svg><use href="#wa"/></svg> WhatsApp schreiben</a>
+          <a href="tel:+493000000000" class="btn btn-y"><svg><use href="#phone"/></svg> 030 000 000 00</a>
+        </div>
+        <div class="cmeta">
+          <div><svg><use href="#clock"/></svg><span>Mo–Sa, 7:00–20:00 Uhr · Rückmeldung in unter 60 Minuten</span></div>
+          <div><svg><use href="#pin"/></svg><span>Im gesamten Großraum Berlin und Brandenburg im Einsatz</span></div>
+          <div><svg><use href="#mail"/></svg><span>info@savo-berlin.de</span></div>
+        </div>
+      </div>
+
+      <form onsubmit="event.preventDefault();this.querySelector('.btn').textContent='Vielen Dank! Wir melden uns.'">
+        <div class="field"><label class="fl" for="b-n">Name</label><input type="text" id="b-n" placeholder="Ihr Name" required /></div>
+        <div class="field"><label class="fl" for="b-t">Telefon</label><input type="tel" id="b-t" placeholder="+49 …" required /></div>
+        <div class="field"><label class="fl" for="b-l">Leistung</label>
+          <select id="b-l">
+            <option>Entrümpelung / Haushaltsauflösung</option>
+            <option>Umzug / Transport</option>
+            <option>Rückbau / Entkernung</option>
+            <option>Endreinigung</option>
+            <option>Sonstiges</option>
+          </select>
+        </div>
+        <div class="field"><label class="fl" for="b-m">Kurze Beschreibung</label><textarea id="b-m" placeholder="Objekt, Größe, Wunschtermin …"></textarea></div>
+        <button class="btn btn-y" type="submit">Kostenloses Angebot anfordern</button>
+        <p class="formnote">Unverbindlich · kostenlos · Antwort in unter 60 Minuten</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="shell">
+    <div class="fgrid">
+      <div>
+        <a href="#top" class="logo"><svg><use href="#mark"/></svg><b>SAVO</b></a>
+        <p style="margin-top:1.2rem;max-width:26rem;font-size:.92rem">
+          Entrümpelung, Haushaltsauflösungen, Umzug, Transport, Rückbau und Reinigung in Berlin und
+          Brandenburg — höchste Qualität, maximale Zuverlässigkeit, garantiert niedrigste Preise.</p>
+      </div>
+      <div>
+        <h4>Leistungen</h4>
+        <ul>
+          <li><a href="#leistungen">Entrümpelung</a></li>
+          <li><a href="#leistungen">Haushaltsauflösung</a></li>
+          <li><a href="#leistungen">Umzug &amp; Transport</a></li>
+          <li><a href="#leistungen">Entkernung &amp; Abriss</a></li>
+          <li><a href="#leistungen">Endreinigung</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Kontakt</h4>
+        <ul>
+          <li><a href="tel:+493000000000">030 000 000 00</a></li>
+          <li><a href="mailto:info@savo-berlin.de">info@savo-berlin.de</a></li>
+          <li><a href="#rechner">Preisrechner</a></li>
+          <li><a href="#">Impressum</a></li>
+          <li><a href="#">Datenschutz</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="fbottom"><span>© 2026 Savo. Alle Rechte vorbehalten.</span><span>Berlin · Potsdam · Brandenburg</span></div>
+  </div>
+</footer>
+
+<script>
+/* ---------- меню ---------- */
+document.getElementById('burger').onclick=()=>document.body.classList.toggle('menu');
+document.querySelectorAll('#mobmenu a').forEach(a=>a.onclick=()=>document.body.classList.remove('menu'));
+
+/* ---------- появление ---------- */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ---------- калькулятор ---------- */
+const area=document.getElementById('area'),areaOut=document.getElementById('areaOut');
+const pMin=document.getElementById('pMin'),pMax=document.getElementById('pMax');
+const oTime=document.getElementById('oTime'),oTeam=document.getElementById('oTeam'),oCont=document.getElementById('oCont');
+const de=n=>Math.round(n).toLocaleString('de-DE');
+let shown={min:0,max:0};
+
+const pick=name=>document.querySelector(`.opts[data-name="${name}"] button[aria-pressed="true"]`);
+
+function animateTo(minV,maxV){
+  const from={...shown},t0=performance.now();
+  const tick=t=>{
+    const p=Math.min((t-t0)/450,1),e=1-Math.pow(1-p,3);
+    pMin.textContent=de(from.min+(minV-from.min)*e);
+    pMax.textContent=de(from.max+(maxV-from.max)*e);
+    if(p<1)requestAnimationFrame(tick);else shown={min:minV,max:maxV};
+  };
+  requestAnimationFrame(tick);
+}
+
+function recalc(){
+  const a=+area.value;
+  const rate=+pick('service').dataset.rate;
+  const objM=+pick('object').dataset.mult;
+  const loadM=+pick('load').dataset.mult;
+
+  areaOut.textContent=a;
+  area.style.setProperty('--fill',((a-10)/290*100)+'%');
+
+  const base=Math.max(290,a*rate*objM*loadM);
+  animateTo(base*.9,base*1.15);
+
+  const days=Math.max(1,Math.round(a*loadM/95));
+  oTime.textContent=days===1?'1 Tag':`${days} Tage`;
+  const team=Math.min(6,Math.max(2,Math.round(a*loadM/55)));
+  oTeam.textContent=`${team} Fachmänner`;
+  oCont.textContent=`${Math.max(2,Math.round(a*loadM*.3))} m³`;
+}
+
+document.querySelectorAll('.opts').forEach(g=>{
+  g.addEventListener('click',e=>{
+    const b=e.target.closest('button');if(!b)return;
+    g.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed','false'));
+    b.setAttribute('aria-pressed','true');
+    recalc();
+  });
+});
+area.addEventListener('input',recalc);
+recalc();
+
+/* ---------- липкая навигация услуг ---------- */
+const navItems=[...document.querySelectorAll('#splitNav li')];
+const bar=document.getElementById('splitBar');
+const blockIo=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(!e.isIntersecting)return;
+    const i=+e.target.dataset.i;
+    navItems.forEach(n=>n.classList.toggle('on',+n.dataset.i===i));
+    bar.style.transform=`translateX(${i*100}%)`;
+  });
+},{rootMargin:'-45% 0px -45% 0px'});
+document.querySelectorAll('.block').forEach(b=>blockIo.observe(b));
+navItems.forEach(li=>li.onclick=()=>
+  document.querySelector(`.block[data-i="${li.dataset.i}"]`).scrollIntoView({block:'center'}));
+
+/* ---------- галерея до/после ---------- */
+document.querySelectorAll('.gcard').forEach(c=>{
+  const flag=c.querySelector('.flag');
+  const set=on=>{c.classList.toggle('show',on);flag.textContent=on?'Vorher':'Nachher'};
+  c.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse')set(true)});
+  c.addEventListener('pointerleave',e=>{if(e.pointerType==='mouse')set(false)});
+  c.addEventListener('click',()=>set(!c.classList.contains('show')));
+});
+
+/* ---------- перетаскивание горизонтальных лент ---------- */
+function dragScroll(el){
+  let down=false,x0=0,s0=0,moved=0;
+  el.addEventListener('pointerdown',e=>{
+    if(e.pointerType!=='mouse')return;
+    down=true;moved=0;x0=e.clientX;s0=el.scrollLeft;el.classList.add('grab');
+  });
+  addEventListener('pointermove',e=>{
+    if(!down)return;
+    const d=e.clientX-x0;moved=Math.abs(d);
+    el.scrollLeft=s0-d;
+  });
+  addEventListener('pointerup',()=>{
+    if(!down)return;down=false;el.classList.remove('grab');
+  });
+  el.addEventListener('click',e=>{if(moved>6)e.stopPropagation()},true);
+}
+dragScroll(document.getElementById('gal'));
+dragScroll(document.getElementById('tl'));
+
+/* ---------- отзывы ---------- */
+const reviews=[
+  ["Kerstin M.","Berlin-Pankow","Nachlass der Mutter komplett aufgelöst — in zwei Tagen. Sehr respektvoller Umgang mit persönlichen Dingen, alles besenrein übergeben."],
+  ["Thomas R.","Potsdam","Angebot war 400 € günstiger als beim Mitbewerber und trotzdem pünktlich, sauber und mit Entsorgungsnachweis. Klare Empfehlung."],
+  ["Familie Weber","Falkensee","Umzug mit Möbelmontage. Nichts beschädigt, nichts verschwunden, Absprachen auf den Punkt eingehalten."],
+  ["Marek S.","Berlin-Neukölln","Keller eines Mehrfamilienhauses in einem Tag geräumt. Kommunikation über WhatsApp war unkompliziert und schnell."],
+  ["Dr. Hoffmann","Berlin-Steglitz","Praxisauflösung inklusive Entkernung. Termine wurden exakt gehalten, das Team war jederzeit erreichbar."],
+  ["Anja L.","Berlin-Mitte","Innerhalb von 40 Minuten Rückruf, am nächsten Tag Besichtigung, zwei Tage später erledigt. So wünscht man sich das."],
+  ["Bernd K.","Oranienburg","Dachboden nach 30 Jahren endlich leer. Fairer Festpreis, keine Nachforderungen, sehr freundliche Leute."],
+  ["Sabine T.","Berlin-Spandau","Alles auf Deutsch besprochen, nichts musste zweimal erklärt werden. Das war mir wichtig und hat perfekt geklappt."]
+];
+const card=([n,d,txt])=>`<div class="rev-card">
+  <div class="stars">${'<svg><use href="#star"/></svg>'.repeat(5)}</div>
+  <p>„${txt}“</p>
+  <div class="who"><span class="av">${n[0]}</span><span><b>${n}</b><span>${d}</span></span></div>
+</div>`;
+const half=reviews.slice(0,4),rest=reviews.slice(4);
+document.getElementById('m1').innerHTML=[...half,...half,...half].map(card).join('');
+document.getElementById('m2').innerHTML=[...rest,...rest,...rest].map(card).join('');
+
+/* ---------- faq ---------- */
+document.querySelectorAll('.q>button').forEach(b=>b.onclick=()=>{
+  const q=b.parentElement,open=q.classList.contains('on');
+  document.querySelectorAll('.q').forEach(x=>x.classList.remove('on'));
+  if(!open)q.classList.add('on');
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SAVO — Design-Entwürfe</title>
+<link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+:root{--bg:#0a0b0c;--panel:#121417;--line:rgba(255,255,255,.1);--fg:#f1f3f4;--fg2:#9aa1a8;--fg3:#6b7278;--y:#ddc82a;
+  --ease:cubic-bezier(.22,.61,.24,1)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--fg2);font:400 16px/1.65 Inter,system-ui,sans-serif}
+h1,h2,h3{font-family:Sora,sans-serif;color:var(--fg);line-height:1.1;letter-spacing:-.02em}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.shell{width:min(1180px,100% - 2.5rem);margin-inline:auto}
+
+header{padding:3.5rem 0 2.5rem;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:.8rem}
+.brand svg{width:48px;height:36px;color:var(--y)}
+.brand b{font:800 1.7rem/1 Sora;color:#fff;letter-spacing:.13em}
+.brand i{display:block;font-style:normal;font-size:.6rem;letter-spacing:.28em;color:var(--fg3);
+  text-transform:uppercase;margin-top:.3rem}
+header h1{font-size:clamp(2rem,4.6vw,3.2rem);margin-top:2.2rem;max-width:22ch}
+header p{margin-top:1.1rem;max-width:56ch}
+
+.list{padding:3.5rem 0 5rem;display:grid;gap:2.5rem}
+.item{border:1px solid var(--line);border-radius:20px;background:var(--panel);overflow:hidden;
+  display:grid;grid-template-columns:1fr .78fr;transition:.4s var(--ease)}
+.item:hover{border-color:rgba(221,200,42,.4);transform:translateY(-3px)}
+.item-info{padding:2.6rem 2.6rem 2.4rem;display:flex;flex-direction:column}
+.badge{display:inline-flex;align-items:center;gap:.6rem;align-self:flex-start;padding:.42rem .85rem;
+  border-radius:999px;border:1px solid rgba(221,200,42,.3);background:rgba(221,200,42,.09);
+  font:600 .67rem/1 Inter;letter-spacing:.18em;text-transform:uppercase;color:var(--y)}
+.item h2{font-size:1.9rem;margin-top:1.1rem}
+.item h2 span{color:var(--fg3);font-weight:600}
+.item>.item-info>p{margin-top:.9rem;font-size:.96rem}
+.item ul{list-style:none;margin-top:1.5rem;display:grid;gap:.6rem;font-size:.9rem}
+.item li{display:flex;gap:.7rem}
+.item li::before{content:"—";color:var(--y);flex-shrink:0}
+.swatch{display:flex;gap:.45rem;margin-top:1.7rem}
+.swatch i{width:30px;height:30px;border-radius:8px;border:1px solid rgba(255,255,255,.14)}
+.actions{margin-top:auto;padding-top:1.9rem;display:flex;flex-wrap:wrap;gap:.7rem}
+.btn{display:inline-flex;align-items:center;gap:.55rem;padding:.95rem 1.5rem;border-radius:999px;
+  font:600 .88rem/1 Inter;transition:.3s var(--ease);border:1px solid transparent;cursor:pointer}
+.btn-y{background:var(--y);color:#0b0b0b}
+.btn-y:hover{background:#efdc4f;transform:translateY(-2px)}
+.btn-o{border-color:var(--line);color:var(--fg)}
+.btn-o:hover{border-color:var(--y);color:var(--y)}
+
+.preview{position:relative;background:#000;border-left:1px solid var(--line);overflow:hidden;min-height:340px}
+.preview img.desk{width:100%;height:100%;object-fit:cover;object-position:top left;opacity:.95}
+.preview img.mob{position:absolute;right:1.6rem;bottom:1.6rem;width:118px;border-radius:14px;
+  border:3px solid #26292d;box-shadow:0 20px 50px -14px rgba(0,0,0,.9)}
+
+footer{border-top:1px solid var(--line);padding:2.5rem 0 4rem;font-size:.88rem;color:var(--fg3)}
+footer b{color:var(--fg2);font-weight:600}
+
+@media (max-width:900px){
+  .item{grid-template-columns:1fr}
+  .preview{border-left:0;border-top:1px solid var(--line);order:-1;min-height:0;aspect-ratio:16/10}
+  .item-info{padding:2rem 1.6rem}
+}
+</style>
+</head>
+<body>
+
+<svg style="display:none">
+  <symbol id="mark" viewBox="0 0 124 92" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 76V33.5L40 7l33 26.5V76"/><path d="M7 76h95"/><path d="M73 41h21l13 14v21"/>
+    <rect x="19" y="45" width="42" height="23" rx="7"/><circle cx="96" cy="76" r="8.5"/>
+  </symbol>
+  <symbol id="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+</svg>
+
+<header>
+  <div class="shell">
+    <div class="brand"><svg><use href="#mark"/></svg><span><b>SAVO</b><i>Berlin &amp; Brandenburg</i></span></div>
+    <h1>Drei Design-Entwürfe für Ihre Website</h1>
+    <p>Alle drei Varianten enthalten dieselben Inhalte und dieselbe Seitenstruktur — sie unterscheiden sich
+       in Gestaltung, Typografie und Wirkung. Variante B geht zusätzlich einen anderen Weg beim Seitenaufbau
+       und bringt einen interaktiven Preisrechner mit. Jeder Entwurf ist voll funktionsfähig und für Desktop,
+       Tablet und Smartphone ausgelegt. Bitte öffnen Sie die Varianten, scrollen Sie durch und wählen Sie
+       die Richtung, die am besten zu Savo passt.</p>
+  </div>
+</header>
+
+<main class="shell list">
+
+  <article class="item">
+    <div class="item-info">
+      <span class="badge">Variante A</span>
+      <h2>Midnight Gold <span>— edel &amp; hochwertig</span></h2>
+      <p>Dunkler, kinoreifer Auftritt mit Gold-Akzenten aus dem Logo, großen Fotoflächen und weichen
+         Glas-Effekten. Wirkt exklusiv und premium — der Preis steht nicht im Vordergrund, sondern die Qualität.</p>
+      <ul>
+        <li>Vollbild-Hero mit Berliner Skyline und Parallax-Effekt</li>
+        <li>Große Leistungskarten im Wechsel Bild / Text</li>
+        <li>Vorher-Nachher-Regler, animierte Kennzahlen</li>
+      </ul>
+      <div class="swatch">
+        <i style="background:#08090a"></i><i style="background:#15181b"></i>
+        <i style="background:#ddc82a"></i><i style="background:#f0e27a"></i><i style="background:#f2f3f4"></i>
+      </div>
+      <div class="actions">
+        <a class="btn btn-y" href="./variante-a.html">Variante A öffnen <svg width="16" height="16"><use href="#arrow"/></svg></a>
+        <a class="btn btn-o" href="./shots/variante-a-desktop-full.jpg">Gesamtansicht als Bild</a>
+      </div>
+    </div>
+    <div class="preview">
+      <img class="desk" src="./shots/variante-a-desktop.jpg" alt="Variante A Desktop" />
+      <img class="mob" src="./shots/variante-a-mobile.jpg" alt="Variante A Mobil" />
+    </div>
+  </article>
+
+  <article class="item">
+    <div class="item-info">
+      <span class="badge">Variante B</span>
+      <h2>Bento &amp; Preisrechner <span>— interaktiv &amp; modern</span></h2>
+      <p>Ein anderer Seitenaufbau: statt einer klassischen Bildbühne startet die Seite als Kachel-Übersicht,
+         danach folgt sofort ein interaktiver Preisrechner. Hell, freundlich, mit viel Weißraum — und die
+         einzige Variante, die dem Besucher in 30 Sekunden eine Zahl liefert.</p>
+      <ul>
+        <li>Bento-Kacheln als Einstieg statt großem Hero-Bild</li>
+        <li>Preisrechner: Leistung, Objekt, Fläche, Füllgrad — Preis rechnet live mit</li>
+        <li>Leistungen mit mitlaufender Sprungnavigation, Referenzen zum Durchziehen</li>
+        <li>Zeitstrahl „Ein Tag im Einsatz“, Bewertungslauf und FAQ-Bereich</li>
+      </ul>
+      <div class="swatch">
+        <i style="background:#faf8f3"></i><i style="background:#f0ebdf"></i>
+        <i style="background:#e9ce1b"></i><i style="background:#1d3a2d"></i><i style="background:#14150f"></i>
+      </div>
+      <div class="actions">
+        <a class="btn btn-y" href="./variante-b.html">Variante B öffnen <svg width="16" height="16"><use href="#arrow"/></svg></a>
+        <a class="btn btn-o" href="./shots/variante-b-desktop-full.jpg">Gesamtansicht als Bild</a>
+      </div>
+    </div>
+    <div class="preview">
+      <img class="desk" src="./shots/variante-b-desktop.jpg" alt="Variante B Desktop" />
+      <img class="mob" src="./shots/variante-b-mobile.jpg" alt="Variante B Mobil" />
+    </div>
+  </article>
+
+  <article class="item">
+    <div class="item-info">
+      <span class="badge">Variante C</span>
+      <h2>Industrial <span>— technisch &amp; handfest</span></h2>
+      <p>Werkstatt-Ästhetik: Stahlgrau, Warnstreifen, technische Beschriftungen und schmale DIN-Schrift.
+         Vermittelt Handwerk, Ausrüstung und Zuverlässigkeit — nah an dem, was Savo tatsächlich macht.</p>
+      <ul>
+        <li>Hero mit Rückbau-Foto und Live-Datenpanel</li>
+        <li>Drei Leistungskarten nebeneinander, Einsatzgebiet mit Bezirken</li>
+        <li>Warnstreifen als Trenner, Kennzahlen im Raster</li>
+      </ul>
+      <div class="swatch">
+        <i style="background:#0b0f12"></i><i style="background:#1c262c"></i>
+        <i style="background:#e8c21c"></i><i style="background:#9fb0ba"></i><i style="background:#eaf1f5"></i>
+      </div>
+      <div class="actions">
+        <a class="btn btn-y" href="./variante-c.html">Variante C öffnen <svg width="16" height="16"><use href="#arrow"/></svg></a>
+        <a class="btn btn-o" href="./shots/variante-c-desktop-full.jpg">Gesamtansicht als Bild</a>
+      </div>
+    </div>
+    <div class="preview">
+      <img class="desk" src="./shots/variante-c-desktop.jpg" alt="Variante C Desktop" />
+      <img class="mob" src="./shots/variante-c-mobile.jpg" alt="Variante C Mobil" />
+    </div>
+  </article>
+
+</main>
+
+<footer>
+  <div class="shell">
+    <p><b>Hinweis:</b> Telefonnummer, E-Mail-Adresse, Kennzahlen (Jahre, Aufträge, Bewertungen) und die Fotos
+       sind Platzhalter und werden vor der Veröffentlichung durch echte Angaben und eigene Bilder ersetzt.
+       Auch Farbtöne, Texte und einzelne Abschnitte lassen sich in jeder Variante frei anpassen.</p>
+  </div>
+</footer>
+
+</body>
+</html>
