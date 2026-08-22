@@ -1,18 +1,15 @@
 import type { Metadata } from "next";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
-import { contacts } from "@/lib/site";
+import { contacts, legal } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Impressum",
-  description: "Impressum und Anbieterkennzeichnung von SAVO, Berlin.",
+  description: `Impressum und Anbieterkennzeichnung von ${legal.companyName}, Berlin.`,
   robots: { index: false, follow: true },
+  alternates: { canonical: "/impressum/" },
 };
 
-/**
- * Заглушка под § 5 TMG. Реальные данные (правовая форма, адрес, регистр,
- * USt-IdNr., ответственное лицо) должен предоставить заказчик.
- */
 export default function ImpressumPage() {
   return (
     <>
@@ -27,11 +24,11 @@ export default function ImpressumPage() {
 
             <h2>Anbieter</h2>
             <p>
-              SAVO
+              {legal.companyName}
               <br />
-              Musterstraße 1
+              {legal.street}
               <br />
-              10115 Berlin
+              {legal.zip} {legal.city}
             </p>
 
             <h2>Kontakt</h2>
@@ -42,13 +39,23 @@ export default function ImpressumPage() {
             </p>
 
             <h2>Vertreten durch</h2>
-            <p>Vor- und Nachname der vertretungsberechtigten Person</p>
+            <p>{legal.owner}</p>
 
-            <h2>Umsatzsteuer-Identifikationsnummer</h2>
-            <p>USt-IdNr. gemäß § 27 a UStG: DE000000000</p>
+            {legal.vatId ? (
+              <>
+                <h2>Umsatzsteuer-Identifikationsnummer</h2>
+                <p>USt-IdNr. gemäß § 27 a UStG: {legal.vatId}</p>
+              </>
+            ) : null}
 
             <h2>Verantwortlich für den Inhalt</h2>
-            <p>Vor- und Nachname, Anschrift wie oben</p>
+            <p>
+              {legal.owner}
+              <br />
+              {legal.street}
+              <br />
+              {legal.zip} {legal.city}
+            </p>
 
             <h2>Streitschlichtung</h2>
             <p>

@@ -2,8 +2,8 @@
  * Единственный источник контента сайта.
  *
  * ВНИМАНИЕ — заглушки, которые нужно заменить реальными данными заказчика:
- * e-mail, url, адрес в Impressum, оценка 4,9/5 (если публикуете — нужна проверка).
- * Телефон и 24/7-доступность — подтверждены заказчиком.
+ * e-mail, url, оценка 4,9/5 (если публикуете — нужна проверка), USt-IdNr.
+ * Телефон, 24/7 и Impressum (Igor Voytok SAVO) — подтверждены заказчиком.
  */
 
 export const contacts = {
@@ -13,7 +13,7 @@ export const contacts = {
   phoneHref: "+4915151828063",
   /** Номер для wa.me — без + и пробелов */
   whatsapp: "4915151828063",
-  email: "info@savo-berlin.de",
+  email: "info@savoberlin.de",
   /** Кратко для хедера */
   hoursShort: "24/7 erreichbar",
   /** Полная формулировка */
@@ -21,11 +21,24 @@ export const contacts = {
   area: "Berlin & Brandenburg",
 } as const;
 
+/** Impressum / Datenschutz — данные заказчика */
+export const legal = {
+  companyName: "Igor Voytok SAVO",
+  owner: "Igor Voytok",
+  street: "Raoul-Wallenberg-Straße 68",
+  zip: "12679",
+  city: "Berlin",
+  /** USt-IdNr. — добавить, когда будет у заказчика */
+  vatId: undefined as string | undefined,
+} as const;
+
+export const legalAddress = `${legal.street}, ${legal.zip} ${legal.city}` as const;
+
 export const site = {
   name: "SAVO",
-  legalName: "SAVO",
+  legalName: legal.companyName,
   tagline: "Ihr starker Partner in Berlin & Brandenburg",
-  url: "https://savo-berlin.de",
+  url: "https://savoberlin.de",
   cities: ["Berlin", "Potsdam", "Oranienburg", "Bernau", "Falkensee", "Königs Wusterhausen"],
 } as const;
 

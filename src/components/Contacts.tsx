@@ -16,7 +16,7 @@ export function Contacts() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const message = [
-      "Neue Anfrage über savo-berlin.de",
+      "Neue Anfrage über savoberlin.de",
       "",
       `Name: ${data.get("name")}`,
       `Telefon: ${data.get("phone")}`,

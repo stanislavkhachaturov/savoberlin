@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
-import { contacts } from "@/lib/site";
+import { contacts, legal, legalAddress } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Datenschutzerklärung",
-  description: "Informationen zur Verarbeitung personenbezogener Daten auf savo-berlin.de.",
+  description: "Informationen zur Verarbeitung personenbezogener Daten auf savoberlin.de.",
   robots: { index: false, follow: true },
+  alternates: { canonical: "/datenschutz/" },
 };
 
 /**
@@ -27,8 +28,8 @@ export default function DatenschutzPage() {
           <div className="prose">
             <h2>1. Verantwortlicher</h2>
             <p>
-              Verantwortlich für die Datenverarbeitung auf dieser Website ist SAVO, Musterstraße 1,
-              10115 Berlin. Sie erreichen uns telefonisch unter{" "}
+              Verantwortlich für die Datenverarbeitung auf dieser Website ist {legal.companyName},{" "}
+              {legalAddress}. Sie erreichen uns telefonisch unter{" "}
               <a href={`tel:${contacts.phoneHref}`}>{contacts.phoneLabel}</a> und per E-Mail unter{" "}
               <a href={`mailto:${contacts.email}`}>{contacts.email}</a>.
             </p>

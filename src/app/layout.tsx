@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Sora } from "next/font/google";
-import { contacts, site } from "@/lib/site";
+import { site } from "@/lib/site";
+import { buildOrganizationJsonLd, seo } from "@/lib/seo";
 import "./globals.css";
 
 const sora = Sora({
@@ -17,41 +18,35 @@ const inter = Inter({
   display: "swap",
 });
 
-const description =
-  "SAVO — Entrümpelung, Haushaltsauflösung, Umzug, Transport, Rückbau und Endreinigung in Berlin und Brandenburg. Kostenlose Besichtigung, Festpreis-Angebot und Bestpreis-Garantie.";
-
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} — Entrümpelung, Umzug & Rückbau in Berlin und Brandenburg`,
+    default: seo.title,
     template: `%s — ${site.name}`,
   },
-  description,
-  keywords: [
-    "Entrümpelung Berlin",
-    "Haushaltsauflösung Berlin",
-    "Umzugsunternehmen Berlin",
-    "Entrümpelung Brandenburg",
-    "Entkernung Berlin",
-    "Rückbau Berlin",
-    "Endreinigung Berlin",
-    "Möbeltransport Berlin",
-  ],
+  description: seo.description,
+  keywords: [...seo.keywords],
   authors: [{ name: site.legalName }],
-  alternates: { canonical: "/" },
+  creator: site.legalName,
+  publisher: site.name,
+  category: "Entrümpelung und Umzug",
+  alternates: {
+    canonical: "/",
+    languages: { "de-DE": "/" },
+  },
   openGraph: {
     type: "website",
-    locale: "de_DE",
+    locale: seo.locale,
     url: site.url,
     siteName: site.name,
-    title: `${site.name} — ${site.tagline}`,
-    description,
-    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: site.name }],
+    title: seo.title,
+    description: seo.description,
+    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: `${site.name} — Entrümpelung und Umzug in Berlin` }],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${site.name} — ${site.tagline}`,
-    description,
+    title: seo.title,
+    description: seo.description,
     images: ["/og.jpg"],
   },
   icons: {
@@ -62,7 +57,20 @@ export const metadata: Metadata = {
     apple: "/apple-icon.png",
   },
   manifest: "/site.webmanifest",
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  ...(seo.googleSiteVerification
+    ? { verification: { google: seo.googleSiteVerification } }
+    : {}),
 };
 
 export const viewport: Viewport = {
@@ -70,49 +78,7 @@ export const viewport: Viewport = {
   colorScheme: "dark",
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "MovingCompany",
-  name: site.name,
-  legalName: site.legalName,
-  slogan: "Höchste Qualität. Maximale Zuverlässigkeit. Garantiert niedrige Preise.",
-  description,
-  url: site.url,
-  telephone: contacts.phoneHref,
-  email: contacts.email,
-  image: `${site.url}/og.jpg`,
-  logo: `${site.url}/favicon.svg`,
-  priceRange: "€€",
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Berlin",
-    addressCountry: "DE",
-  },
-  areaServed: site.cities.map((city) => ({ "@type": "City", name: city })),
-  openingHoursSpecification: {
-    "@type": "OpeningHoursSpecification",
-    dayOfWeek: [
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-      "Sunday",
-    ],
-    opens: "00:00",
-    closes: "23:59",
-  },
-  makesOffer: [
-    "Entrümpelung",
-    "Haushaltsauflösung",
-    "Umzug & Transport",
-    "Kurierdienst",
-    "Möbelmontage",
-    "Entkernung & Rückbau",
-    "Endreinigung",
-  ].map((name) => ({ "@type": "Offer", itemOffered: { "@type": "Service", name } })),
-};
+const organizationJsonLd = buildOrganizationJsonLd();
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
@@ -121,7 +87,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         {children}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
       </body>
     </html>

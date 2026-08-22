@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Advantages } from "@/components/Advantages";
 import { BeforeAfter } from "@/components/BeforeAfter";
 import { Calculator } from "@/components/Calculator";
@@ -11,17 +12,21 @@ import { Process } from "@/components/Process";
 import { Services } from "@/components/Services";
 import { Stats } from "@/components/Stats";
 import { Ticker } from "@/components/Ticker";
-import { faq } from "@/lib/site";
+import { buildFaqJsonLd, seo } from "@/lib/seo";
+import { site } from "@/lib/site";
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: faq.items.map((item) => ({
-    "@type": "Question",
-    name: item.q,
-    acceptedAnswer: { "@type": "Answer", text: item.a },
-  })),
+export const metadata: Metadata = {
+  title: seo.title,
+  description: seo.description,
+  alternates: { canonical: "/" },
+  openGraph: {
+    url: site.url,
+    title: seo.title,
+    description: seo.description,
+  },
 };
+
+const faqJsonLd = buildFaqJsonLd();
 
 export default function HomePage() {
   return (
