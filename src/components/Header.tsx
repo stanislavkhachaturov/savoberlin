@@ -49,9 +49,9 @@ export function Header() {
           </nav>
           <a href={`tel:${contacts.phoneHref}`} className="hcall">
             <b>{contacts.phoneLabel}</b>
-            <span>Mo–Sa 7–20 Uhr</span>
+            <span>{contacts.hoursShort}</span>
           </a>
-          <a href="#kontakt" className="btn btn-gold">
+          <a href="/#kontakt" className="btn btn-gold">
             Kostenloses Angebot
           </a>
           <button
@@ -74,14 +74,14 @@ export function Header() {
             {item.label}
           </a>
         ))}
-        <a href="#kontakt" className="btn btn-gold" onClick={() => setOpen(false)}>
+        <a href="/#kontakt" className="btn btn-gold" onClick={() => setOpen(false)}>
           Kostenloses Angebot
         </a>
         <a href={`tel:${contacts.phoneHref}`} className="mobcall" onClick={() => setOpen(false)}>
           <PhoneIcon />
           <span>
             <b>{contacts.phoneLabel}</b>
-            <em>Mo–Sa 7–20 Uhr</em>
+            <em>{contacts.hoursShort}</em>
           </span>
         </a>
       </div>

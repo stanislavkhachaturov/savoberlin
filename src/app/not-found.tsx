@@ -36,7 +36,7 @@ export default function NotFound() {
           <ul className="notfound-links">
             {nav.map((item) => (
               <li key={item.href}>
-                <Link href={`/${item.href}`}>{item.label}</Link>
+                <Link href={item.href}>{item.label}</Link>
               </li>
             ))}
           </ul>

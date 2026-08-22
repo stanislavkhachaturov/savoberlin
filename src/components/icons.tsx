@@ -133,6 +133,7 @@ export function WhatsAppIcon(props: SVGProps<SVGSVGElement>) {
 }
 
 export const advantageIcons = {
+  clock: ClockIcon,
   euro: EuroIcon,
   shield: ShieldIcon,
   chat: ChatIcon,

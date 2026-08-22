@@ -1,5 +1,5 @@
-// Сгенерировано автоматически: pnpm assets. Не редактировать вручную.
-// Источник фотографий — Unsplash (https://unsplash.com/license).
+// Сгенерировано автоматически: pnpm assets / обновление манифеста. Не редактировать вручную.
+// vorher*/nachher* — фото заказчика; остальное — Unsplash.
 
 export type SiteImage = {
   src: string;
@@ -13,43 +13,55 @@ export const images = {
     "src": "/images/hero.webp",
     "width": 2200,
     "height": 1238,
-    "blurDataURL": "data:image/webp;base64,UklGRkgAAABXRUJQVlA4IDwAAAAwAgCdASoYAA4AA4BaJQBYdiHWrwtalvTdwAD+x/O5DG9u0dEgrFh6hh0UFg6MzPB9ZkXaLAdQIO24AAA="
+    "blurDataURL": "data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAACQAwCdASoYAA4ALrV2u12jqampiYC0SgCsIHAGBRgDt9kg70/wAP7H87kMcovAlNnKRghb7Q8xyrU9/VgIT5Slg2+90gAA"
   },
   "roofs": {
     "src": "/images/roofs.webp",
     "width": 2000,
     "height": 875,
-    "blurDataURL": "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAACwAwCdASoYAAsAPu1mqk2ppaQiMAgBMB2JYwCdACHWNWR1XUJYAAD+3n6pUSoE7+uHu5uN9vZJD5w8bD8CuITjEsBFyEO5FUIAAA=="
+    "blurDataURL": "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAADQAwCdASoYAAoAPu1yrU+pp6QiMAgBMB2JZQCdMvIDTefBONLz2QAA/t6AUuMsGoHko0BsdAPGrXKn1eSTSQS2+7ONp5eZYgAAAA=="
   },
   "service-entruempelung": {
     "src": "/images/service-entruempelung.webp",
     "width": 1400,
     "height": 1050,
-    "blurDataURL": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAABQBACdASoYABIAPu1mqE2ppiQiMBgMATAdiWcAygAQ36iIgfY7IeclV+gAAP60DoKh14gHO5vdBuLvauVEFIP2SYxhBaEkYPXgB9/hvtg0Yp8d9z91UH06N9AczwAA"
+    "blurDataURL": "data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAAAQBACdASoYABIAPu1krFAppSQisBgIATAdiWcAxzAPBsAytVpmTv670AD+l2YcPZghCXy6C96MNyCW9xI7zxQQmoDwCkw/3FvTJgCkxXKScm9eWQN3FkTOic2xGWyAAAA="
   },
   "service-umzug": {
     "src": "/images/service-umzug.webp",
     "width": 1400,
     "height": 1050,
-    "blurDataURL": "data:image/webp;base64,UklGRnYAAABXRUJQVlA4IGoAAACQBACdASoYABIAPu1gqU4ppSOiMBgMATAdiWkAAB5mnbUQhR9DLycjbne49QAA+VfmxgcNew5nU4CKEWT3V/FG004LsReFi8vkxiULRsRr3Ct2/zidJ0WkXLowcMAtca7gm0eM5kkLYAAA"
+    "blurDataURL": "data:image/webp;base64,UklGRnQAAABXRUJQVlA4IGgAAADQBACdASoYABIAPu1eqE4ppKOiMBgMATAdiWkAAB6IarddyHV1MswY/aAUJ5IWAAD5V+bGBw17DmdTgIoRZLuo+vnBpqHZg95fKC7P6JJJFcLRgFOvbTjA+/EmYNibJ7USEhQ8TegAAA=="
   },
   "service-rueckbau": {
     "src": "/images/service-rueckbau.webp",
     "width": 1400,
     "height": 1050,
-    "blurDataURL": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAAAwBACdASoYABIAPt1WpU2opKOiN/qoARAbiWcAxNgeduqG6eAMi5PTgyAA+mcVj4jEYwXQrUWd+bKgfC6m9ZGFVEtgurojoZPmKCgTOZ2GJ+Gc01vsZv7jbEEKAAAA"
+    "blurDataURL": "data:image/webp;base64,UklGRmYAAABXRUJQVlA4IFoAAADQBACdASoYABIAPuFcqU2opSQiMAwBEBwJZwDGfCPtb2FCJqxm2p4deKQ7wyfdOAD6ZuDRqdwc3GC++o1WGBNxgFeRjhdH+8OignTv2WaSM+ACZXE004HOwAA="
   },
   "vorher": {
     "src": "/images/vorher.webp",
-    "width": 1800,
-    "height": 1013,
-    "blurDataURL": "data:image/webp;base64,UklGRmAAAABXRUJQVlA4IFQAAADwAwCdASoYAA4APu1krU6ppaSiMAgBMB2JQBOmUABWWmaxMfbCNGhgAP7QNgDD3MyAH8tJskByQiuY996f3PyRhT2u6jZIbQPd3oMCwyZZLHdQAAA="
+    "width": 1207,
+    "height": 1644,
+    "blurDataURL": "data:image/webp;base64,UklGRpoAAABXRUJQVlA4II4AAACQBQCdASoYACEAPuVipU2pJiOiNVgIASAciWUAy6QUNKPIUB43ViFZJz8Fzou3GQ4C4eubYAD+7t6+23gJXpc5m/EPnbvGPFoDObXG6sq6544IcY5CG422xvmFD3KEbonyNUUTh5qHlwyAHvzrTtGZFvvfZmK48jxSQ2ixHCCT2y/3vd1TDCQy6s0QcAAA"
   },
   "nachher": {
     "src": "/images/nachher.webp",
-    "width": 1800,
-    "height": 1013,
-    "blurDataURL": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAACQAwCdASoYAA4APu1iqk2ppaQiMAgBMB2JQBibA9KhDPPRuxfAAP5UZhxMN2y6IGT/5+HI7PtiZg2XPrLZUKFd5iOJD4FGoseVQAAA"
+    "width": 1207,
+    "height": 1644,
+    "blurDataURL": "data:image/webp;base64,UklGRnoAAABXRUJQVlA4IG4AAABQBQCdASoYACEAPt1cok2opSMiNUgBEBuJZwC+SCzVRnfM2bElAoyE3Z7b6uW/XzxH/KAA/tk5h6tXwf1J8U1CiCuPdVMKQZx61c9L+di20nYJs7uxFp1VD4DoBRWBIBio119AWzq0c3fXgxoAAA=="
+  },
+  "vorher2": {
+    "src": "/images/vorher2.webp",
+    "width": 1092,
+    "height": 1440,
+    "blurDataURL": "data:image/webp;base64,UklGRpoAAABXRUJQVlA4II4AAABwBQCdASoYACAAPu1qrU8ppiQiMBgIATAdiWUAv+wOnmHI5s+RSnLayb0PDv9eWQogiOggAP7F3faBa5LcnuJ434H72FWtHerws+1SagG3xUAtMkX+bwXwxfvuMD3uvxFsJyrl2bV9VKxpMHVqlpSlC53giXrkIVPMHAG1G0rZbi6gwZbNgYCXUG4Zb4AA"
+  },
+  "nachher2": {
+    "src": "/images/nachher2.webp",
+    "width": 1077,
+    "height": 1460,
+    "blurDataURL": "data:image/webp;base64,UklGRpQAAABXRUJQVlA4IIgAAABQBgCdASoYACEAPuFgpk2opiOiNVv4ARAcCWcAzjgg6uQGYQZ4myC1/ibfWin4c7J3cSDAUKri2rfFAAD+ZIpP+i/fmlr3292US4W6Krd+isGPo7cyivmglNtQQ/KhrsaZJxPzP7DBy7+wMjsBN+jF7lFVRySxgpNYJl2HTc6iwfohKMWHkHIA"
   }
 } satisfies Record<string, SiteImage>;
 

@@ -2,8 +2,8 @@
  * Единственный источник контента сайта.
  *
  * ВНИМАНИЕ — заглушки, которые нужно заменить реальными данными заказчика:
- * контакты (phone, whatsapp, email, url), цифры в блоке stats и адрес в Impressum.
- * Всё остальное — согласованные тексты.
+ * e-mail, url, адрес в Impressum, оценка 4,9/5 (если публикуете — нужна проверка).
+ * Телефон и 24/7-доступность — подтверждены заказчиком.
  */
 
 export const contacts = {
@@ -14,7 +14,10 @@ export const contacts = {
   /** Номер для wa.me — без + и пробелов */
   whatsapp: "4915151828063",
   email: "info@savo-berlin.de",
-  hours: "Mo–Sa, 7:00–20:00 Uhr",
+  /** Кратко для хедера */
+  hoursShort: "24/7 erreichbar",
+  /** Полная формулировка */
+  hours: "24/7 erreichbar — Tag und Nacht",
   area: "Berlin & Brandenburg",
 } as const;
 
@@ -27,15 +30,15 @@ export const site = {
 } as const;
 
 export const nav = [
-  { href: "#leistungen", label: "Leistungen" },
-  { href: "#rechner", label: "Preisrechner" },
-  { href: "#warum", label: "Warum SAVO" },
-  { href: "#ablauf", label: "Ablauf" },
-  { href: "#kontakt", label: "Kontakt" },
+  { href: "/#leistungen", label: "Leistungen" },
+  { href: "/#rechner", label: "Preisrechner" },
+  { href: "/#warum", label: "Warum SAVO" },
+  { href: "/#ablauf", label: "Ablauf" },
+  { href: "/#kontakt", label: "Kontakt" },
 ] as const;
 
 export const hero = {
-  badge: "Berlin & Brandenburg · Rückmeldung in 60 Minuten",
+  badge: "Berlin & Brandenburg · 24/7 erreichbar",
   headline: ["Ihr starker", "Partner für"],
   headlineAccent: "Entrümpelung & Umzug",
   /** Разбит на части, чтобы выделить «Bestpreis-Garantie» без вёрстки в тексте */
@@ -43,13 +46,13 @@ export const hero = {
     before:
       "Entrümpelung, Haushaltsauflösung, Umzug und Rückbau — schnell, sauber und diskret. Alles aus einer Hand, mit einem festen Ansprechpartner und ",
     highlight: "Bestpreis-Garantie",
-    after: " für Berlin und Brandenburg.",
+    after: " für Berlin und Brandenburg. Anrufen können Sie jederzeit — auch nachts.",
   },
   stats: [
-    { value: "12", suffix: "+", label: "Jahre Erfahrung" },
-    { value: "3.200", suffix: "+", label: "Abgeschlossene Aufträge" },
+    { value: "24", suffix: "/7", label: "Erreichbar – auch nachts" },
     { value: "4,9", suffix: "/5", label: "Durchschnittliche Bewertung" },
     { value: "60", suffix: " Min.", label: "Rückmeldung garantiert" },
+    { value: "0", suffix: " €", label: "Kostenlose Besichtigung" },
   ],
 } as const;
 
@@ -63,6 +66,7 @@ export const ticker = [
   "Abbrucharbeiten",
   "Endreinigung",
   "Warentransport",
+  "24/7 erreichbar",
   "Bestpreis-Garantie",
 ] as const;
 
@@ -139,6 +143,11 @@ export const services = [
 
 export const advantages = [
   {
+    icon: "clock",
+    title: "24/7 erreichbar",
+    text: "Rufen Sie an, wann Sie wollen — tagsüber, abends oder mitten in der Nacht. Wir sind immer für Sie da.",
+  },
+  {
     icon: "euro",
     title: "Bestpreis-Garantie",
     text: "Die niedrigsten Preise in Berlin und Brandenburg — ohne Abstriche bei der Leistung.",
@@ -146,7 +155,7 @@ export const advantages = [
   {
     icon: "shield",
     title: "Erfahrene Fachkräfte",
-    text: "Eingespielte Teams mit jahrelanger Praxis in ihrem jeweiligen Fachgebiet.",
+    text: "Eingespielte Teams mit Praxis in ihrem jeweiligen Fachgebiet.",
   },
   {
     icon: "chat",
@@ -216,9 +225,25 @@ export const calculator = {
 export const beforeAfter = {
   eyebrow: "Vorher / Nachher",
   title: "Aus vollen Räumen werden freie Flächen",
-  lead: "Ziehen Sie den Regler nach links und rechts. So sieht das Ergebnis einer Haushaltsauflösung mit Endreinigung und besenreiner Übergabe aus.",
+  lead: "Ziehen Sie den Regler. Zwei echte Beispiele aus unserem Alltag — vor der Entrümpelung und danach, besenrein übergeben.",
   labelBefore: "Vorher",
   labelAfter: "Nachher · besenrein",
+  examples: [
+    {
+      before: "vorher",
+      after: "nachher",
+      caption: "Bürofläche",
+      altBefore: "Bürofläche vollgestellt vor der Entrümpelung",
+      altAfter: "Dieselbe Bürofläche geräumt und besenrein",
+    },
+    {
+      before: "vorher2",
+      after: "nachher2",
+      caption: "Wohnraum",
+      altBefore: "Wohnraum mit Umzugskartons und Restmüll",
+      altAfter: "Wohnraum leer, sauber und übergabebereit",
+    },
+  ],
 } as const;
 
 export const process = {
@@ -228,7 +253,7 @@ export const process = {
     {
       number: "01",
       title: "Anfrage",
-      text: "Per Telefon, WhatsApp oder Formular. Wir melden uns innerhalb von 60 Minuten bei Ihnen.",
+      text: "Per Telefon (24/7), WhatsApp oder Formular. Wir melden uns innerhalb von 60 Minuten bei Ihnen.",
     },
     {
       number: "02",
@@ -249,10 +274,10 @@ export const process = {
 } as const;
 
 export const stats = [
-  { value: 12, suffix: "+", label: "Jahre Erfahrung in der Region" },
-  { value: 3200, suffix: "+", label: "Abgeschlossene Aufträge" },
-  { value: 98, suffix: " %", label: "Kunden empfehlen uns weiter" },
+  { value: 24, suffix: "/7", label: "Erreichbar – Tag und Nacht" },
   { value: 60, suffix: " Min.", label: "Antwortzeit auf Anfragen" },
+  { value: 0, suffix: " €", label: "Kostenlose Besichtigung" },
+  { value: 100, suffix: " %", label: "Festpreis nach Besichtigung" },
 ] as const;
 
 export const faq = {
@@ -282,6 +307,10 @@ export const faq = {
     {
       q: "In welchem Gebiet sind Sie im Einsatz?",
       a: "In ganz Berlin und im angrenzenden Brandenburg, unter anderem in Potsdam, Oranienburg, Bernau, Falkensee und Königs Wusterhausen.",
+    },
+    {
+      q: "Kann ich auch nachts anrufen?",
+      a: "Ja. Sie erreichen uns rund um die Uhr — tagsüber, abends und auch nachts. Rufen Sie an, wann immer es bei Ihnen passt.",
     },
   ],
 } as const;
@@ -326,7 +355,7 @@ export const contact = {
       href: `mailto:${contacts.email}`,
     },
     { icon: "pin", title: "Berlin & Brandenburg", text: "Im gesamten Großraum im Einsatz" },
-    { icon: "clock", title: "Kurzfristige Termine", text: "Auf Wunsch auch am Wochenende" },
+    { icon: "clock", title: "24/7 erreichbar", text: "Anrufe willkommen — auch nachts" },
   ] satisfies ContactRow[],
 } as const;
 
@@ -344,21 +373,21 @@ export const footer = {
     {
       title: "Leistungen",
       links: [
-        { label: "Entrümpelung", href: "#leistungen" },
-        { label: "Haushaltsauflösung", href: "#leistungen" },
-        { label: "Umzug & Transport", href: "#leistungen" },
-        { label: "Entkernung & Abbruch", href: "#leistungen" },
-        { label: "Endreinigung", href: "#leistungen" },
+        { label: "Entrümpelung", href: "/#leistungen" },
+        { label: "Haushaltsauflösung", href: "/#leistungen" },
+        { label: "Umzug & Transport", href: "/#leistungen" },
+        { label: "Entkernung & Abbruch", href: "/#leistungen" },
+        { label: "Endreinigung", href: "/#leistungen" },
       ],
     },
     {
       title: "Unternehmen",
       links: [
-        { label: "Warum SAVO", href: "#warum" },
-        { label: "Preisrechner", href: "#rechner" },
-        { label: "Ablauf", href: "#ablauf" },
-        { label: "Häufige Fragen", href: "#faq" },
-        { label: "Kontakt", href: "#kontakt" },
+        { label: "Warum SAVO", href: "/#warum" },
+        { label: "Preisrechner", href: "/#rechner" },
+        { label: "Ablauf", href: "/#ablauf" },
+        { label: "Häufige Fragen", href: "/#faq" },
+        { label: "Kontakt", href: "/#kontakt" },
       ],
     },
     {

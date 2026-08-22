@@ -17,7 +17,7 @@ export function Footer() {
               <ul>
                 {column.links.map((link) => (
                   <li key={link.label}>
-                    {link.href.startsWith("#") ? (
+                    {link.href.includes("#") ? (
                       <a href={link.href}>{link.label}</a>
                     ) : (
                       // Impressum и Datenschutz открывают единицы — предзагрузка не нужна

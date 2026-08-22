@@ -13,9 +13,9 @@ const OUT_DIR = path.join(ROOT, "public", "images");
 const MANIFEST = path.join(ROOT, "src", "lib", "images.generated.ts");
 
 /**
- * name -> { id, width, ratio, position }
- * Пара vorher/nachher кропается строго по центру — иначе разные кропы ломают
- * впечатление одного и того же помещения в слайдере.
+ * name -> { id, width, ratio, position } для Unsplash
+ * или { local: true } — взять уже лежащий public/images/{name}.webp
+ * (vorher/nachher — фото заказчика, портрет ~3:4).
  */
 const SOURCES = {
   hero: { id: "1743348717569-ccd2c1d09d6e", width: 2200, ratio: 16 / 9 },
@@ -25,8 +25,10 @@ const SOURCES = {
   "service-umzug": { id: "1663181191222-a20536e7419c", width: 1400, ratio: 4 / 3 },
   "service-rueckbau": { id: "1634586648651-f1fb9ec10d90", width: 1400, ratio: 4 / 3 },
 
-  vorher: { id: "1677910819022-5f6945fa2200", width: 1800, ratio: 16 / 9, position: "center" },
-  nachher: { id: "1722650272764-08d92d193a9c", width: 1800, ratio: 16 / 9, position: "center" },
+  vorher: { local: true },
+  nachher: { local: true },
+  vorher2: { local: true },
+  nachher2: { local: true },
 };
 
 async function download(id) {
@@ -43,6 +45,29 @@ await fs.mkdir(path.dirname(MANIFEST), { recursive: true });
 const manifest = {};
 
 for (const [name, source] of Object.entries(SOURCES)) {
+  const outFile = path.join(OUT_DIR, `${name}.webp`);
+
+  if (source.local) {
+    const meta = await sharp(outFile).metadata();
+    const width = meta.width;
+    const height = meta.height;
+    const ratio = width / height;
+    const blur = await sharp(outFile)
+      .resize(24, Math.max(1, Math.round(24 / ratio)), { fit: "inside" })
+      .blur(1.2)
+      .webp({ quality: 40 })
+      .toBuffer();
+
+    manifest[name] = {
+      src: `/images/${name}.webp`,
+      width,
+      height,
+      blurDataURL: `data:image/webp;base64,${blur.toString("base64")}`,
+    };
+    console.log(`✓ ${name} ${width}×${height} (local)`);
+    continue;
+  }
+
   const { id, width, ratio, position = "attention" } = source;
   const raw = await download(id);
   const height = Math.round(width / ratio);
@@ -50,7 +75,7 @@ for (const [name, source] of Object.entries(SOURCES)) {
   await sharp(raw)
     .resize(width, height, { fit: "cover", position })
     .webp({ quality: 80 })
-    .toFile(path.join(OUT_DIR, `${name}.webp`));
+    .toFile(outFile);
 
   const blur = await sharp(raw)
     .resize(24, Math.max(1, Math.round(24 / ratio)), { fit: "cover", position })
@@ -69,7 +94,7 @@ for (const [name, source] of Object.entries(SOURCES)) {
 }
 
 const body = `// Сгенерировано автоматически: pnpm assets. Не редактировать вручную.
-// Источник фотографий — Unsplash (https://unsplash.com/license).
+// vorher/nachher — локальные фото заказчика; остальное — Unsplash.
 
 export type SiteImage = {
   src: string;
