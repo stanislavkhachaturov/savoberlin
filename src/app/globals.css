@@ -671,13 +671,14 @@
   flex-wrap: wrap;
   gap: 0.9rem;
   margin-top: 1.75rem;
+  /* Гарантированный зазор до блока статистики, даже когда margin-top: auto схлопывается */
+  margin-bottom: 1.25rem;
   opacity: 0;
   animation: fade 0.9s var(--ease) 0.76s forwards;
 }
 
 .hero-stats {
   margin-top: auto;
-  padding-top: 1.75rem;
   position: relative;
   border: 1px solid var(--line);
   border-radius: 20px;
@@ -1921,6 +1922,9 @@
   .hero {
     padding-top: calc(var(--header-h) + 1rem);
     padding-bottom: 1.25rem;
+  }
+  .hero-cta {
+    margin-bottom: 1.5rem;
   }
   .hero-stats ul {
     grid-template-columns: repeat(2, 1fr);
