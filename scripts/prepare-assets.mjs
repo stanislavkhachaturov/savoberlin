@@ -21,8 +21,9 @@ const SOURCES = {
   hero: { id: "1743348717569-ccd2c1d09d6e", width: 2200, ratio: 16 / 9 },
   roofs: { id: "1707049709216-8d474af00f12", width: 2000, ratio: 16 / 7 },
 
-  "service-entruempelung": { id: "1698917414969-feade59e3343", width: 1400, ratio: 4 / 3 },
-  "service-umzug": { id: "1663181191222-a20536e7419c", width: 1400, ratio: 4 / 3 },
+  // Фото заказчика — не перекачивать с Unsplash
+  "service-entruempelung": { local: true },
+  "service-umzug": { local: true },
   "service-rueckbau": { id: "1634586648651-f1fb9ec10d90", width: 1400, ratio: 4 / 3 },
 
   vorher: { local: true },

@@ -620,6 +620,18 @@
   margin-top: 1.35rem;
 }
 
+.hero-motto {
+  margin-top: 1rem;
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 2.2vw, 1.25rem);
+  font-weight: 600;
+  font-style: italic;
+  letter-spacing: 0.04em;
+  color: var(--gold-soft);
+  opacity: 0;
+  animation: fade 0.9s var(--ease) 0.5s forwards;
+}
+
 .hero-line {
   display: block;
   overflow: hidden;
@@ -865,6 +877,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: left center;
   transition: transform 1.1s var(--ease);
   filter: saturate(0.85) contrast(1.05);
 }
@@ -877,11 +890,16 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, var(--ink-2), transparent 45%);
+  /* Короткий градиент — иначе съедает человека слева на фото Entrümpelung */
+  background: linear-gradient(90deg, var(--ink-2), transparent 28%);
 }
 
 .svc:nth-child(even) .svc-media::after {
-  background: linear-gradient(270deg, var(--ink-2), transparent 45%);
+  background: linear-gradient(270deg, var(--ink-2), transparent 28%);
+}
+
+.svc:nth-child(even) .svc-media img {
+  object-position: right center;
 }
 
 .tag {
@@ -1718,9 +1736,53 @@
 }
 
 .fabout {
-  margin-top: 1.4rem;
+  margin-top: 1rem;
   max-width: 26rem;
   font-size: 0.92rem;
+}
+
+.fmotto {
+  margin-top: 0.85rem;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-style: italic;
+  color: var(--gold-soft);
+}
+
+.fsocial {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.2rem;
+}
+
+.fsocial a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.55rem 0.95rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--fg-2);
+  transition:
+    color 0.3s,
+    border-color 0.3s,
+    background 0.3s;
+}
+
+.fsocial a svg {
+  width: 18px;
+  height: 18px;
+  color: var(--gold);
+}
+
+.fsocial a:hover {
+  color: #fff;
+  border-color: rgba(221, 200, 42, 0.35);
+  background: rgba(221, 200, 42, 0.08);
 }
 
 .fbottom {

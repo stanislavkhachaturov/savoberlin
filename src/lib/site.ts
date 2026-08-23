@@ -7,16 +7,19 @@
  */
 
 export const contacts = {
-  /** Формат для отображения */
+  /** Основной номер */
   phoneLabel: "+49 151 51828063",
-  /** Формат для tel: — только цифры и + */
   phoneHref: "+4915151828063",
+  /** Резервный номер — совладелец */
+  phoneSecondaryLabel: "+49 157 38777399",
+  phoneSecondaryHref: "+4915738777399",
+  phoneSecondaryNote: "Reservenummer",
   /** Номер для wa.me — без + и пробелов */
   whatsapp: "4915151828063",
   email: "info@savoberlin.de",
-  /** Кратко для хедера */
+  instagram: "https://www.instagram.com/savo_berlin",
+  instagramHandle: "@savo_berlin",
   hoursShort: "24/7 erreichbar",
-  /** Полная формулировка */
   hours: "24/7 erreichbar — Tag und Nacht",
   area: "Berlin & Brandenburg",
 } as const;
@@ -37,9 +40,20 @@ export const legalAddress = `${legal.street}, ${legal.zip} ${legal.city}` as con
 export const site = {
   name: "SAVO",
   legalName: legal.companyName,
+  /** Девиз компании */
+  motto: "Bruder muss los — aber mit SAVO",
   tagline: "Ihr starker Partner in Berlin & Brandenburg",
   url: "https://savoberlin.de",
   cities: ["Berlin", "Potsdam", "Oranienburg", "Bernau", "Falkensee", "Königs Wusterhausen"],
+} as const;
+
+export const promo = {
+  newClientDiscount: 30,
+  newClientTitle: "30 % Neukunden-Rabatt",
+  newClientText:
+    "Bei Ihrer ersten Buchung bei SAVO — auf jede Leistung, egal ob Entrümpelung, Umzug oder Rückbau.",
+  demontageTitle: "Kostenlose Möbeldemontage",
+  demontageText: "Möbeldemontage ist bei uns inklusive — ohne Aufpreis.",
 } as const;
 
 export const nav = [
@@ -51,21 +65,21 @@ export const nav = [
 ] as const;
 
 export const hero = {
-  badge: "Berlin & Brandenburg · 24/7 erreichbar",
+  badge: "30 % Neukunden-Rabatt · 24/7 erreichbar",
   headline: ["Ihr starker", "Partner für"],
   headlineAccent: "Entrümpelung & Umzug",
-  /** Разбит на части, чтобы выделить «Bestpreis-Garantie» без вёрстки в тексте */
   lead: {
     before:
-      "Entrümpelung, Haushaltsauflösung, Umzug und Rückbau — schnell, sauber und diskret. Alles aus einer Hand, mit einem festen Ansprechpartner und ",
-    highlight: "Bestpreis-Garantie",
-    after: " für Berlin und Brandenburg. Anrufen können Sie jederzeit — auch nachts.",
+      "Entrümpelung, Haushaltsauflösung, Umzug und Rückbau — schnell, sauber und diskret. ",
+    highlight: promo.newClientTitle,
+    after:
+      " bei Ihrer ersten Buchung, kostenlose Möbeldemontage inklusive. Alles aus einer Hand in Berlin und Brandenburg — anrufen können Sie jederzeit, auch nachts.",
   },
   stats: [
+    { value: "30", suffix: " %", label: "Rabatt für Neukunden" },
     { value: "24", suffix: "/7", label: "Erreichbar – auch nachts" },
-    { value: "4,9", suffix: "/5", label: "Durchschnittliche Bewertung" },
+    { value: "0", suffix: " €", label: "Möbeldemontage inkl." },
     { value: "60", suffix: " Min.", label: "Rückmeldung garantiert" },
-    { value: "0", suffix: " €", label: "Kostenlose Besichtigung" },
   ],
 } as const;
 
@@ -73,13 +87,13 @@ export const ticker = [
   "Entrümpelung",
   "Haushaltsauflösung",
   "Umzug",
+  "Kostenlose Möbeldemontage",
+  "30 % Neukunden-Rabatt",
   "Möbelmontage",
-  "Kurierdienst",
   "Entkernung",
-  "Abbrucharbeiten",
   "Endreinigung",
-  "Warentransport",
   "24/7 erreichbar",
+  "Bruder muss los — aber mit SAVO",
   "Bestpreis-Garantie",
 ] as const;
 
@@ -110,6 +124,10 @@ export const services = [
         term: "Besenreine Übergabe",
         text: "Sie übergeben den Schlüssel, wir übergeben leere und saubere Räume",
       },
+      {
+        term: "Kostenlose Möbeldemontage",
+        text: "Demontage Ihrer Möbel ohne Aufpreis — spart Zeit und Nerven",
+      },
     ],
   },
   {
@@ -129,6 +147,10 @@ export const services = [
       { term: "Warentransport", text: "Sichere Beförderung Ihrer Güter, auf Wunsch versichert" },
       { term: "Kurierdienst", text: "Direkt- und Sonderfahrten, auch am selben Tag" },
       { term: "Möbelmontage", text: "Fachgerechter Ab- und Aufbau Ihrer Möbel und Küchen" },
+      {
+        term: "Kostenlose Möbeldemontage",
+        text: "Abbau vor dem Transport inklusive — bei uns ohne Zusatzkosten",
+      },
     ],
   },
   {
@@ -156,6 +178,16 @@ export const services = [
 
 export const advantages = [
   {
+    icon: "tag",
+    title: promo.newClientTitle,
+    text: promo.newClientText,
+  },
+  {
+    icon: "wrench",
+    title: promo.demontageTitle,
+    text: promo.demontageText,
+  },
+  {
     icon: "clock",
     title: "24/7 erreichbar",
     text: "Rufen Sie an, wann Sie wollen — tagsüber, abends oder mitten in der Nacht. Wir sind immer für Sie da.",
@@ -171,16 +203,6 @@ export const advantages = [
     text: "Eingespielte Teams mit Praxis in ihrem jeweiligen Fachgebiet.",
   },
   {
-    icon: "chat",
-    title: "Klare Kommunikation auf Deutsch",
-    text: "Von der Beratung bis zur Übergabe sprechen Sie mit Menschen, die Ihre Sprache sprechen.",
-  },
-  {
-    icon: "spark",
-    title: "Höchster Serviceanspruch",
-    text: "Pünktlich, sauber und diskret. Mit Ihrem Eigentum gehen wir sorgsam um.",
-  },
-  {
     icon: "box",
     title: "Alles aus einer Hand",
     text: "Planung, Koordination und Ausführung bei einem Anbieter — ein Ansprechpartner für alles.",
@@ -188,10 +210,10 @@ export const advantages = [
 ] as const;
 
 export const priceCard = {
-  eyebrow: "Preisversprechen",
-  title: ["Bestpreis.", "Garantiert."],
-  text: "Sie haben ein günstigeres, vergleichbares Angebot aus Berlin oder Brandenburg? Zeigen Sie es uns — wir unterbieten es. Ohne versteckte Kosten und mit verbindlichem Festpreis nach der kostenlosen Besichtigung.",
-  cta: "Angebot vergleichen lassen",
+  eyebrow: "Neukunden-Angebot",
+  title: ["30 % Rabatt.", "Erste Buchung."],
+  text: `${promo.newClientText} Dazu ${promo.demontageText.toLowerCase()} Zusätzlich: verbindlicher Festpreis nach der kostenlosen Besichtigung — und unsere Bestpreis-Garantie.`,
+  cta: "Angebot mit Rabatt anfragen",
 } as const;
 
 export const calculator = {
@@ -287,10 +309,10 @@ export const process = {
 } as const;
 
 export const stats = [
+  { value: 30, suffix: " %", label: "Neukunden-Rabatt" },
   { value: 24, suffix: "/7", label: "Erreichbar – Tag und Nacht" },
+  { value: 0, suffix: " €", label: "Möbeldemontage inklusive" },
   { value: 60, suffix: " Min.", label: "Antwortzeit auf Anfragen" },
-  { value: 0, suffix: " €", label: "Kostenlose Besichtigung" },
-  { value: 100, suffix: " %", label: "Festpreis nach Besichtigung" },
 ] as const;
 
 export const faq = {
@@ -322,6 +344,14 @@ export const faq = {
       a: "In ganz Berlin und im angrenzenden Brandenburg, unter anderem in Potsdam, Oranienburg, Bernau, Falkensee und Königs Wusterhausen.",
     },
     {
+      q: "Gibt es einen Rabatt für Neukunden?",
+      a: `Ja. Neukunden erhalten ${promo.newClientDiscount} % Rabatt auf die erste gebuchte Leistung — ob Entrümpelung, Umzug, Rückbau oder Reinigung. Einfach bei der Anfrage kurz Bescheid geben.`,
+    },
+    {
+      q: "Ist die Möbeldemontage wirklich kostenlos?",
+      a: "Ja. Die Demontage Ihrer Möbel ist bei uns inklusive — ohne versteckte Zusatzkosten. Das gilt für Entrümpelungen, Umzüge und Haushaltsauflösungen.",
+    },
+    {
       q: "Kann ich auch nachts anrufen?",
       a: "Ja. Sie erreichen uns rund um die Uhr — tagsüber, abends und auch nachts. Rufen Sie an, wann immer es bei Ihnen passt.",
     },
@@ -331,7 +361,7 @@ export const faq = {
 export const contact = {
   eyebrow: "Kontakt",
   title: "Jetzt unverbindlich anfragen",
-  lead: "Beschreiben Sie kurz Ihr Vorhaben. Sie erhalten von uns ein kostenloses Angebot mit Festpreis — und die Gewissheit, dass hohe Qualität und niedrige Preise zusammengehen.",
+  lead: "Beschreiben Sie kurz Ihr Vorhaben. Neukunden erhalten 30 % Rabatt auf die erste Leistung — plus kostenlose Möbeldemontage.",
   form: {
     name: { label: "Name", placeholder: "Ihr Name" },
     phone: { label: "Telefon", placeholder: "+49 …" },
@@ -362,18 +392,28 @@ export const contact = {
       href: `tel:${contacts.phoneHref}`,
     },
     {
+      icon: "phone",
+      title: contacts.phoneSecondaryLabel,
+      text: contacts.phoneSecondaryNote,
+      href: `tel:${contacts.phoneSecondaryHref}`,
+    },
+    {
+      icon: "instagram",
+      title: contacts.instagramHandle,
+      text: "Folgen Sie uns auf Instagram",
+      href: contacts.instagram,
+    },
+    {
       icon: "mail",
       title: contacts.email,
       text: "Antwort am selben Werktag",
       href: `mailto:${contacts.email}`,
     },
-    { icon: "pin", title: "Berlin & Brandenburg", text: "Im gesamten Großraum im Einsatz" },
-    { icon: "clock", title: "24/7 erreichbar", text: "Anrufe willkommen — auch nachts" },
   ] satisfies ContactRow[],
 } as const;
 
 type ContactRow = {
-  icon: "phone" | "mail" | "pin" | "clock";
+  icon: "phone" | "mail" | "pin" | "clock" | "instagram";
   title: string;
   text: string;
   href?: string;
@@ -381,7 +421,14 @@ type ContactRow = {
 
 export const footer = {
   about:
-    "Entrümpelung, Haushaltsauflösung, Umzug, Transport, Rückbau und Reinigung in Berlin und Brandenburg. Höchste Qualität, maximale Zuverlässigkeit, garantiert niedrige Preise.",
+    "Entrümpelung, Haushaltsauflösung, Umzug, Transport, Rückbau und Reinigung in Berlin und Brandenburg. Kostenlose Möbeldemontage, 30 % Neukunden-Rabatt, 24/7 erreichbar.",
+  social: [
+    {
+      label: "Instagram",
+      href: contacts.instagram,
+      handle: contacts.instagramHandle,
+    },
+  ],
   columns: [
     {
       title: "Leistungen",

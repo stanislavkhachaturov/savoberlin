@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { footer } from "@/lib/site";
+import { footer, site } from "@/lib/site";
+import { InstagramIcon } from "./icons";
 import { Logo } from "./Logo";
 
 export function Footer() {
@@ -9,7 +10,22 @@ export function Footer() {
         <div className="fgrid">
           <div>
             <Logo />
+            <p className="fmotto">{site.motto}</p>
             <p className="fabout">{footer.about}</p>
+            <div className="fsocial">
+              {footer.social.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${item.label}: ${item.handle}`}
+                >
+                  <InstagramIcon />
+                  {item.handle}
+                </a>
+              ))}
+            </div>
           </div>
           {footer.columns.map((column) => (
             <div key={column.title}>

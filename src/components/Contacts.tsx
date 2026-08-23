@@ -56,7 +56,13 @@ export function Contacts() {
               );
 
               return row.href ? (
-                <a key={row.title} href={row.href}>
+                <a
+                  key={row.href}
+                  href={row.href}
+                  {...(row.icon === "instagram"
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
+                >
                   {content}
                 </a>
               ) : (

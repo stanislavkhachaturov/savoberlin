@@ -53,18 +53,6 @@ pnpm brand    # обновит иконки и og.jpg
 
 Сейчас используются лицензионно-свободные фото с Unsplash, кроме пары **vorher / nachher** (и vorher2 / nachher2) — это фото заказчика. **Сервисные кадры и hero стоит заменить на реальные фотографии работ.** Пара vorher/nachher кропается в портрете 3:4; обе пары показываются рядом в сетке.
 
-## Что нужно от заказчика перед публикацией
-
-- [x] **Телефон и WhatsApp** — `+49 151 51828063`, прописан в `src/lib/site.ts`.
-- [x] **E-mail** — `info@savoberlin.de` в `src/lib/site.ts`.
-- [x] **Домен** — `https://savoberlin.de` в `site.url` (Open Graph, sitemap, JSON-LD).
-- [ ] **Цифры** — оценка 4,9/5 в герое всё ещё заглушка: без проверки публиковать нельзя (UWG). Завышенные «годы/заказы» убраны; вместо них 24/7, ответ за 60 мин и бесплатный осмотр.
-- [x] **Режим связи** — 24/7, звонить можно в любое время включая ночь.
-- [x] **Impressum** — Igor Voytok SAVO, Raoul-Wallenberg-Straße 68, 12679 Berlin, Igor Voytok. Осталось: USt-IdNr., если есть.
-- [ ] **Datenschutz** — текст написан под текущую реализацию (без cookies и трекинга), но его должен проверить юрист заказчика.
-- [ ] **Фотографии работ** — минимум 2–3 пары «до/после» и несколько кадров бригады.
-- [ ] **Ставки калькулятора** — €/м² по услугам и коэффициенты по типу объекта в `src/lib/site.ts` (`calculator`). Сейчас это разумные рыночные ориентиры, но их должен подтвердить заказчик.
-
 ## SEO и индексация в Google
 
 На сайте уже настроено:
@@ -76,43 +64,6 @@ pnpm brand    # обновит иконки и og.jpg
 - canonical URL на главной
 
 Правки SEO-текстов — в `src/lib/seo.ts` (title, description, keywords).
-
-### 1. Google Search Console (обязательно)
-
-1. Открыть [Google Search Console](https://search.google.com/search-console)
-2. Добавить ресурс **Домен** `savoberlin.de` (лучше) или **URL-префикс** `https://savoberlin.de`
-3. Подтвердить владение:
-   - **DNS TXT** у регистратора домена (для «Домен»), или
-   - **HTML-тег**: скопировать код → создать `.env.local`:
-     ```bash
-     NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=ваш_код_из_gsc
-     ```
-     → `pnpm build` и задеплоить заново
-4. **Sitemaps** → добавить `https://savoberlin.de/sitemap.xml`
-5. **Проверка URL** → вставить `https://savoberlin.de/` → «Запросить индексирование»
-
-Проверка после деплоя: открыть `https://savoberlin.de/robots.txt` и `https://savoberlin.de/sitemap.xml`.
-
-### 2. Google Business Profile (сильнее всего для «Entrümpelung Berlin»)
-
-Карточка в Google Maps / локальная выдача часто важнее, чем только сайт:
-
-1. [business.google.com](https://business.google.com) → создать профиль **Igor Voytok SAVO**
-2. Адрес, телефон, часы **24/7**, категории: Entrümpelung, Umzugsunternehmen, Haushaltsauflösung
-3. Сайт: `https://savoberlin.de`
-4. Фото работ (до/после), реальные отзывы клиентов
-
-### 3. Что реально влияет на топ выдачи (кроме кода)
-
-| Фактор | Действие |
-| --- | --- |
-| Отзывы Google | просить клиентов после заказа |
-| Локальные запросы | «Entrümpelung Berlin Marzahn», «Haushaltsauflösung Potsdam» — покрыты текстом на сайте |
-| Конкуренция | по «Entrümpelung Berlin» топ занят агрегаторами; realistic — район + long-tail |
-| Ссылки | каталоги (Gelbe Seiten, Das Örtliche), локальные форумы |
-| Контент | позже — отдельные landing-страницы по услугам/районам (сейчас одностраничник) |
-
-**Честно:** техническое SEO на сайте — необходимый минимум. Топ-3 по конкурентным запросам без отзывов, карточки Google и времени — маловероятен. Для старта цель: индексация за 1–2 недели, первые показы по бренду «SAVO Berlin» и длинным запросам.
 
 ## Как работает форма
 

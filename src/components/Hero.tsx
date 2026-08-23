@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { useReducedMotion } from "motion/react";
-import { contacts, hero } from "@/lib/site";
+import { contacts, hero, site } from "@/lib/site";
 import { images } from "@/lib/images.generated";
 import { ArrowIcon, PhoneIcon } from "./icons";
 
@@ -72,6 +72,8 @@ export function Hero() {
             </span>
           </span>
         </h1>
+
+        <p className="hero-motto">{site.motto}</p>
 
         <p className="hero-lead">
           {hero.lead.before}

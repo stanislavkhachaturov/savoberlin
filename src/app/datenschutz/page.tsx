@@ -30,7 +30,9 @@ export default function DatenschutzPage() {
             <p>
               Verantwortlich für die Datenverarbeitung auf dieser Website ist {legal.companyName},{" "}
               {legalAddress}. Sie erreichen uns telefonisch unter{" "}
-              <a href={`tel:${contacts.phoneHref}`}>{contacts.phoneLabel}</a> und per E-Mail unter{" "}
+              <a href={`tel:${contacts.phoneHref}`}>{contacts.phoneLabel}</a> bzw.{" "}
+              <a href={`tel:${contacts.phoneSecondaryHref}`}>{contacts.phoneSecondaryLabel}</a> und
+              per E-Mail unter{" "}
               <a href={`mailto:${contacts.email}`}>{contacts.email}</a>.
             </p>
 

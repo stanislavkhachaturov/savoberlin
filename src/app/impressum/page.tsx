@@ -35,6 +35,9 @@ export default function ImpressumPage() {
             <p>
               Telefon: <a href={`tel:${contacts.phoneHref}`}>{contacts.phoneLabel}</a>
               <br />
+              Reservenummer:{" "}
+              <a href={`tel:${contacts.phoneSecondaryHref}`}>{contacts.phoneSecondaryLabel}</a>
+              <br />
               E-Mail: <a href={`mailto:${contacts.email}`}>{contacts.email}</a>
             </p>
 

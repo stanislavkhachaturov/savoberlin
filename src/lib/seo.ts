@@ -5,7 +5,7 @@ export const seo = {
   /** Главная: title для вкладки и выдачи Google */
   title: "Entrümpelung Berlin & Brandenburg | SAVO — Umzug, Haushaltsauflösung, Rückbau",
   description:
-    "SAVO: Entrümpelung, Haushaltsauflösung, Umzug, Transport, Rückbau und Endreinigung in Berlin und Brandenburg. 24/7 erreichbar, kostenlose Besichtigung, Festpreis und Bestpreis-Garantie.",
+    "SAVO: Entrümpelung, Haushaltsauflösung, Umzug, Rückbau und Endreinigung in Berlin und Brandenburg. 30 % Neukunden-Rabatt, kostenlose Möbeldemontage, 24/7 erreichbar.",
   /** Дополнительные ключевые слова (meta keywords — слабый сигнал, но не мешает) */
   keywords: [
     "Entrümpelung Berlin",
@@ -63,11 +63,12 @@ export function buildOrganizationJsonLd() {
         name: site.name,
         legalName: site.legalName,
         alternateName: "SAVO Berlin",
-        slogan: "Höchste Qualität. Maximale Zuverlässigkeit. Garantiert niedrige Preise.",
+        slogan: site.motto,
         description: seo.description,
         url: site.url,
-        telephone: contacts.phoneHref,
+        telephone: [contacts.phoneHref, contacts.phoneSecondaryHref],
         email: contacts.email,
+        sameAs: [contacts.instagram],
         image: `${site.url}/og.jpg`,
         logo: `${site.url}/favicon.svg`,
         priceRange: "€€",

@@ -25,13 +25,13 @@ export const images = {
     "src": "/images/service-entruempelung.webp",
     "width": 1400,
     "height": 1050,
-    "blurDataURL": "data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAAAQBACdASoYABIAPu1krFAppSQisBgIATAdiWcAxzAPBsAytVpmTv670AD+l2YcPZghCXy6C96MNyCW9xI7zxQQmoDwCkw/3FvTJgCkxXKScm9eWQN3FkTOic2xGWyAAAA="
+    "blurDataURL": "data:image/webp;base64,UklGRngAAABXRUJQVlA4IGwAAAAwBQCdASoYABIAPu1kqk4ppaQiMAgBMB2JZQC/7B4hTh2k/F6mCGIUTV89gI6v+yRIAAD6M6peZzEayBoEwtpxXY5U5HHo8ODvIVYhbB6+wRiZizeXVU9MnxdUJAw3UqBOsuJpOJ6kaEkAAAA="
   },
   "service-umzug": {
     "src": "/images/service-umzug.webp",
     "width": 1400,
     "height": 1050,
-    "blurDataURL": "data:image/webp;base64,UklGRnQAAABXRUJQVlA4IGgAAADQBACdASoYABIAPu1eqE4ppKOiMBgMATAdiWkAAB6IarddyHV1MswY/aAUJ5IWAAD5V+bGBw17DmdTgIoRZLuo+vnBpqHZg95fKC7P6JJJFcLRgFOvbTjA+/EmYNibJ7USEhQ8TegAAA=="
+    "blurDataURL": "data:image/webp;base64,UklGRnoAAABXRUJQVlA4IG4AAAAwBQCdASoYABIAPt1YpE2opSOiN/qoARAbiUAToAM+bWlsf1Vg0vZsq+aV9QUCLONSXAD+79eUOIq8CkspAwchQucKnx06FqyoxXd6oOhRZem7gKpTFvlCSSS+hqyY9l7PyCoZIfoyKj/7NZAAAA=="
   },
   "service-rueckbau": {
     "src": "/images/service-rueckbau.webp",
