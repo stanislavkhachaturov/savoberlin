@@ -281,14 +281,17 @@
   flex-shrink: 0;
 }
 
-.logo svg {
+.logo svg,
+.logo img {
   width: 44px;
   height: 33px;
+  object-fit: contain;
   color: var(--gold);
   transition: transform 0.5s var(--ease);
 }
 
-.logo:hover svg {
+.logo:hover svg,
+.logo:hover img {
   transform: translateX(3px);
 }
 

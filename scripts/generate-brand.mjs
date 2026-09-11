@@ -1,5 +1,5 @@
 /**
- * Генерирует иконки приложения и OG-картинку из public/favicon.svg
+ * Генерирует иконки приложения и OG-картинку из public/logo-mark.png
  * и фонового фото public/images/hero.webp.
  *
  * Запуск: pnpm brand (после pnpm assets)
@@ -11,24 +11,28 @@ import path from "node:path";
 const ROOT = path.resolve(import.meta.dirname, "..");
 const PUBLIC = path.join(ROOT, "public");
 const BG = "#08090a";
-
-const logoSvg = await fs.readFile(path.join(PUBLIC, "favicon.svg"));
+const MARK = path.join(PUBLIC, "logo-mark.png");
 
 for (const size of [192, 512]) {
-  await sharp(logoSvg, { density: 600 })
-    .resize(size, size, { fit: "contain", background: BG })
-    .flatten({ background: BG })
+  const mark = await sharp(MARK)
+    .resize(Math.round(size * 0.78), Math.round(size * 0.78), {
+      fit: "contain",
+      background: { r: 0, g: 0, b: 0, alpha: 0 },
+    })
+    .png()
+    .toBuffer();
+  await sharp({ create: { width: size, height: size, channels: 4, background: BG } })
+    .composite([{ input: mark, gravity: "center" }])
     .png()
     .toFile(path.join(PUBLIC, `icon-${size}.png`));
   console.log(`✓ icon-${size}.png`);
 }
 
-// Apple добавляет собственное скругление — оставляем поля вокруг знака
 await sharp({ create: { width: 180, height: 180, channels: 4, background: "#0e1012" } })
   .composite([
     {
-      input: await sharp(logoSvg, { density: 600 })
-        .resize(140, 140, { fit: "contain" })
+      input: await sharp(MARK)
+        .resize(140, 140, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } })
         .png()
         .toBuffer(),
       gravity: "center",
@@ -37,6 +41,18 @@ await sharp({ create: { width: 180, height: 180, channels: 4, background: "#0e10
   .png()
   .toFile(path.join(PUBLIC, "apple-icon.png"));
 console.log("✓ apple-icon.png");
+
+const markForFavicon = await sharp(MARK)
+  .resize(124, 92, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } })
+  .png()
+  .toBuffer();
+const faviconSvg = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 148 116">
+  <rect width="148" height="116" rx="24" fill="#0b0f12"/>
+  <image x="12" y="12" width="124" height="92" href="data:image/png;base64,${markForFavicon.toString("base64")}"/>
+</svg>`;
+await fs.writeFile(path.join(PUBLIC, "favicon.svg"), faviconSvg);
+console.log("✓ favicon.svg");
 
 // --- OG-картинка -------------------------------------------------------------
 const W = 1200;
@@ -73,8 +89,8 @@ await sharp(background)
   .composite([
     { input: overlay, top: 0, left: 0 },
     {
-      input: await sharp(logoSvg, { density: 600 })
-        .resize(170, 133, { fit: "contain" })
+      input: await sharp(MARK)
+        .resize(170, 133, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } })
         .png()
         .toBuffer(),
       top: 78,
