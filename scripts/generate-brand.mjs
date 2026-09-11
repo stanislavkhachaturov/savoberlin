@@ -65,7 +65,7 @@ const overlay = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${W}
     <text x="0" y="0" font-family="Helvetica, Arial, sans-serif" font-size="80" font-weight="bold" fill="#F2F3F4" letter-spacing="8">SAVO</text>
     <text x="0" y="62" font-family="Helvetica, Arial, sans-serif" font-size="34" fill="#DDC82A">Entrümpelung · Umzug · Rückbau</text>
     <text x="0" y="118" font-family="Helvetica, Arial, sans-serif" font-size="29" fill="#A9AEB3">Ihr starker Partner in Berlin &amp; Brandenburg</text>
-    <text x="0" y="192" font-family="Helvetica, Arial, sans-serif" font-size="34" font-weight="bold" fill="#F2F3F4">Bestpreis-Garantie · Kostenlose Besichtigung</text>
+    <text x="0" y="192" font-family="Helvetica, Arial, sans-serif" font-size="34" font-weight="bold" fill="#F2F3F4">Faire Preise · Kostenlose Besichtigung</text>
   </g>
 </svg>`);
 

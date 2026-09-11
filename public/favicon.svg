@@ -3,9 +3,10 @@
   <g transform="translate(12 12)" fill="none" stroke="#ddc82a" stroke-width="7"
      stroke-linecap="round" stroke-linejoin="round">
     <path d="M7 76V33.5L40 7l33 26.5V76"/>
-    <path d="M7 76h95"/>
-    <path d="M73 41h21l13 14v21"/>
-    <rect x="19" y="45" width="42" height="23" rx="7"/>
-    <circle cx="96" cy="76" r="8.5"/>
+    <path d="M7 76h66"/>
+    <rect x="20" y="44" width="40" height="24" rx="8"/>
+    <path d="M73 41h20l14 15v20"/>
+    <rect x="84" y="49" width="10" height="17" rx="2.5"/>
+    <circle cx="98" cy="76" r="8.5"/>
   </g>
 </svg>

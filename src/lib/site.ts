@@ -94,7 +94,7 @@ export const ticker = [
   "Endreinigung",
   "24/7 erreichbar",
   "Bruder muss los — aber mit SAVO",
-  "Bestpreis-Garantie",
+  "Faire Preise",
 ] as const;
 
 export const services = [
@@ -194,8 +194,8 @@ export const advantages = [
   },
   {
     icon: "euro",
-    title: "Bestpreis-Garantie",
-    text: "Die niedrigsten Preise in Berlin und Brandenburg — ohne Abstriche bei der Leistung.",
+    title: "Faire Preise",
+    text: "Transparente Preise – ohne versteckte Kosten.",
   },
   {
     icon: "shield",
@@ -212,7 +212,7 @@ export const advantages = [
 export const priceCard = {
   eyebrow: "Neukunden-Angebot",
   title: ["30 % Rabatt.", "Erste Buchung."],
-  text: `${promo.newClientText} Dazu ${promo.demontageText.toLowerCase()} Zusätzlich: verbindlicher Festpreis nach der kostenlosen Besichtigung — und unsere Bestpreis-Garantie.`,
+  text: `${promo.newClientText} Dazu ${promo.demontageText.toLowerCase()} Zusätzlich: verbindlicher Festpreis nach der kostenlosen Besichtigung — und faire Preise ohne versteckte Kosten.`,
   cta: "Angebot mit Rabatt anfragen",
 } as const;
 
