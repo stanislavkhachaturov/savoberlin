@@ -283,8 +283,8 @@
 
 .logo svg,
 .logo img {
-  width: 44px;
-  height: 33px;
+  width: 58px;
+  height: 44px;
   object-fit: contain;
   color: var(--gold);
   transition: transform 0.5s var(--ease);
@@ -301,7 +301,7 @@
   font-size: 1.55rem;
   font-weight: 800;
   line-height: 1;
-  color: #fff;
+  color: var(--gold);
   letter-spacing: 0.14em;
 }
 
