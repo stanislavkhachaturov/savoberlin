@@ -9,7 +9,10 @@ import { Reveal } from "./ui/Reveal";
 const AREA_MIN = 10;
 const AREA_MAX = 300;
 
-const de = (value: number) => Math.round(value).toLocaleString("de-DE");
+/** Ориентировочная сумма всегда кратна 10 € (…0). */
+const roundPrice = (value: number) => Math.max(0, Math.round(value / 10) * 10);
+
+const de = (value: number) => roundPrice(value).toLocaleString("de-DE");
 
 /** Плавный переход отображаемой суммы к новому значению. */
 function useAnimatedRange(min: number, max: number) {
@@ -59,7 +62,7 @@ export function Calculator() {
     const team = Math.min(6, Math.max(2, Math.round((area * loadMult) / 55)));
     const volume = Math.max(2, Math.round(area * loadMult * 0.3));
 
-    return { min: base * 0.9, max: base * 1.15, days, team, volume };
+    return { min: roundPrice(base * 0.9), max: roundPrice(base * 1.15), days, team, volume };
   }, [service, object, load, area]);
 
   const price = useAnimatedRange(result.min, result.max);
